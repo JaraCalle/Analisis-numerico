@@ -2,10 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 
-import numpy as np
-import matplotlib.pyplot as plt
-import math
-
 def graficar(fx, titulo_grafica):
     x_values = np.linspace(-10, 10, 1000)
     y_values = [eval(fx, {'x': x, 'math': math}) for x in x_values]
