@@ -1,8 +1,22 @@
+from django.contrib import messages
 import pandas as pd
 import numpy as np
 import math
+from .condiciones import verificar_continuidad, verificar_existencia_raiz
+from .graficas import graficar
 
-def regula_falsi_dc(a, b, fx, dc, niter):
+def regla_falsa_DC(a, b, dc, niter, fx, request):
+  continuidad = verificar_continuidad(fx, a, b)
+  raiz = verificar_existencia_raiz(fx, a, b)
+
+  if not continuidad:
+    messages.error(request, "La función no es continua en el intervalo.")
+    return None, None
+
+  if not raiz:
+    messages.error(request, "La función no tiene raíces en el intervalo.")
+    return None, None
+     
   i = 1
   tol = "0.5E-"
   tol += dc
@@ -29,17 +43,31 @@ def regula_falsi_dc(a, b, fx, dc, niter):
 
   if fe==0:
     s=xm
-    print(s,"es raiz de f(x)")
+    messages.success(request, f"{s} es raiz de f(x).")
   elif E<tol:
     s=xm
-    print(s,"es una aproximacion de un raiz de f(x) con una tolerancia", tol)
+    messages.success(request, f"{s} es una aproximacion de un raiz de f(x) con una tolerancia {tol}.")
   else:
     s=xm
-    print("Fracaso en ",niter, " iteraciones ")
+    messages.error(request, f"Fracaso en {niter} iteraciones.")
 
-  return df
+  messages.success(request, "Se ejecuto el método de la regla falsa correctamente")
+  df = df.to_html(classes='table table-striped', index=False)
+  grafico = graficar(fx)
+  return df, grafico
 
-def regula_falsi_cs(a, b, fx, cs, niter):
+def regla_falsa_CS(a, b, cs, niter, fx, request):
+  continuidad = verificar_continuidad(fx, a, b)
+  raiz = verificar_existencia_raiz(fx, a, b)
+
+  if not continuidad:
+    messages.error(request, "La función no es continua en el intervalo.")
+    return None, None
+
+  if not raiz:
+    messages.error(request, "La función no tiene raíces en el intervalo.")
+    return None, None
+
   i = 1
   tol = "5E-"
   tol += cs
@@ -66,12 +94,15 @@ def regula_falsi_cs(a, b, fx, cs, niter):
 
   if fe==0:
     s=xm
-    print(s,"es raiz de f(x)")
+    messages.success(request, f"{s} es raiz de f(x).")
   elif E<tol:
     s=xm
-    print(s,"es una aproximacion de un raiz de f(x) con una tolerancia", tol)
+    messages.success(request, f"{s} es una aproximacion de un raiz de f(x) con una tolerancia {tol}.")
   else:
     s=xm
-    print("Fracaso en ",niter, " iteraciones ")
+    messages.error(request, f"Fracaso en {niter} iteraciones.")
 
-  return df
+  messages.success(request, "Se ejecuto el método de la regla falsa correctamente")
+  df = df.to_html(classes='table table-striped', index=False)
+  grafico = graficar(fx)
+  return df, grafico

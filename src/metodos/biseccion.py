@@ -1,8 +1,22 @@
+from django.contrib import messages
 import pandas as pd
 import numpy as np
 import math
+from .condiciones import verificar_continuidad, verificar_existencia_raiz
+from .graficas import graficar
 
-def biseccion_DC(Xi, Xs, DC, Niter, Fun):
+def biseccion_DC(Xi, Xs, DC, Niter, Fun, request):
+	continuidad = verificar_continuidad(Fun, Xi, Xs)
+	raiz = verificar_existencia_raiz(Fun, Xi, Xs)
+
+	if not continuidad:
+		messages.error(request, "La función no es continua en el intervalo.")
+		return None, None
+	
+	if not raiz:
+		messages.error(request, "La función no tiene raíces en el intervalo.")
+		return None, None
+
 	Tol = float(f'0.5E-{DC}')
 	fm=[]
 	E=[]
@@ -59,21 +73,33 @@ def biseccion_DC(Xi, Xs, DC, Niter, Fun):
 			df.loc[len(df)] = [N, Xm, fe, Error]
 		if fe==0:
 				s=x
-				print(s,"es raiz de f(x)")
+				messages.success(request, f"{s} es raiz de f(x).")
 		elif Error<Tol:
 				s=x
-				print(s,"es una aproximacion de un raiz de f(x) con una tolerancia", Tol)
-				print("Fm",fm)
-				print("Error",fm)
+				messages.success(request, f"{s} es una aproximacion de un raiz de f(x) con una tolerancia {Tol}.")
 		else:
 				s=x
-				print("Fracaso en ",Niter, " iteraciones ")
+				messages.error(request, f"Fracaso en {Niter} iteraciones.")
 	else:
-		print("El intervalo es inadecuado")
+		messages.error(request, "El intervalo es inadecuado")
 
-	return df
+	messages.success(request, "Se ejecuto el método de la bisección correctamente")
+	df = df.to_html(classes='table table-striped', index=False)
+	grafico = graficar(Fun)
+	return df, grafico
 
-def biseccion_CS(Xi, Xs, CS, Niter, Fun):
+def biseccion_CS(Xi, Xs, CS, Niter, Fun, request):
+	continuidad = verificar_continuidad(Fun, Xi, Xs)
+	raiz = verificar_existencia_raiz(Fun, Xi, Xs)
+
+	if not continuidad:
+		messages.error(request, "La función no es continua en el intervalo.")
+		return None, None
+	
+	if not raiz:
+		messages.error(request, "La función no tiene raíces en el intervalo.")
+		return None, None
+
 	Tol = float(f'5E-{CS}')
 	fm=[]
 	E=[]
@@ -130,16 +156,17 @@ def biseccion_CS(Xi, Xs, CS, Niter, Fun):
 			df.loc[len(df)] = [N, Xm, fe, Error]
 		if fe==0:
 				s=x
-				print(s,"es raiz de f(x)")
+				messages.success(request, f"{s} es raiz de f(x).")
 		elif Error<Tol:
 				s=x
-				print(s,"es una aproximacion de un raiz de f(x) con una tolerancia", Tol)
-				print("Fm",fm)
-				print("Error",fm)
+				messages.success(request, f"{s} es una aproximacion de un raiz de f(x) con una tolerancia {Tol}.")
 		else:
 				s=x
-				print("Fracaso en ",Niter, " iteraciones ")
+				messages.error(request, f"Fracaso en {Niter} iteraciones.")
 	else:
-		print("El intervalo es inadecuado")
+		messages.error(request, "El intervalo es inadecuado")
 
-	return df
+	messages.success(request, "Se ejecuto el método de la bisección correctamente")
+	df = df.to_html(classes='table table-striped', index=False)
+	grafico = graficar(Fun)
+	return df, grafico

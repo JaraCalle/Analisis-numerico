@@ -1,30 +1,48 @@
 import numpy as np
-import matplotlib.pyplot as plt
+import plotly.graph_objects as go
+from plotly.offline import plot
 import math
 
-def graficar(fx, titulo_grafica):
-    x_values = np.linspace(-10, 10, 1000)
-    y_values = [eval(fx, {'x': x, 'math': math}) for x in x_values]
+def graficar(fx):
+    x_values = np.linspace(-50, 50, 10000)
+
+    funcion = [eval(fx, {'x': x, 'math': math}) for x in x_values]
+
+    # Creamos la figura
+    fig = go.Figure()
+
+    # Añadimos el trazo de la función seno
+    fig.add_trace(go.Scatter(x=x_values, y=funcion, mode='lines', line=dict(color='red', width=2), showlegend=False))
+
+    # Establecemos los parámetros visuales para los ejes y la cuadrícula
+    fig.update_layout(
+        xaxis=dict(
+            title="x",
+            range=[-10, 10],  # Rango fijo para el eje x
+            gridcolor='lightgray',  # Color gris claro para la cuadrícula
+            zeroline=True,  # Mostrar línea en x=0
+            zerolinecolor='darkgray',  # Color gris oscuro para la línea en x=0
+            zerolinewidth=2,  # Ancho de la línea en x=0
+            showgrid=True,  # Mostrar la cuadrícula
+            showline=True,  # Mostrar la línea del eje
+            linewidth=2  # Ancho de la línea del eje x
+        ),
+        yaxis=dict(
+            title="y",
+            range=[-10, 10],  # Rango fijo para el eje y
+            gridcolor='lightgray',  # Color gris claro para la cuadrícula
+            zeroline=True,  # Mostrar línea en y=0
+            zerolinecolor='darkgray',  # Color gris oscuro para la línea en y=0
+            zerolinewidth=2,  # Ancho de la línea en y=0
+            showgrid=True,  # Mostrar la cuadrícula
+            showline=True,  # Mostrar la línea del eje
+            linewidth=2  # Ancho de la línea del eje y
+        ),
+        plot_bgcolor='white',  # Color blanco para el fondo del área de trazado
+        paper_bgcolor='white',  # Color blanco para el fondo fuera del área de trazado
+        showlegend=True
+    )
+
+    graph_html = plot(fig, output_type='div', include_plotlyjs=True)
     
-    fig, ax = plt.subplots()
-    ax.plot(x_values, y_values)
-    
-    # Cambiar el color de los ejes en x=0 y y=0 (puedes poner cualquier color)
-    ax.spines['bottom'].set_color('black')  # Color del eje x
-    ax.spines['left'].set_color('black')    # Color del eje y
-    
-    # Si deseas que el centro de los ejes (x=0 y y=0) sea más visible, haz estos cambios
-    ax.axhline(0, color='black', linewidth=0.5)  # Línea horizontal en y=0
-    ax.axvline(0, color='black', linewidth=0.5)  # Línea vertical en x=0
-    
-    # Opcional: Cambiar el grosor de las líneas de las cuadrículas
-    ax.grid(True, linewidth=1.5)
-    
-    # Configurar las etiquetas y el título
-    ax.set_xlabel('x')
-    ax.set_ylabel('f(x)')
-    ax.set_title(titulo_grafica)
-    ax.grid(True)
-    ax.legend()
-    ax.set_ylim([-100, 100])
-    plt.show()
+    return graph_html
