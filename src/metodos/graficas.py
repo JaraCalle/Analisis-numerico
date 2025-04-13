@@ -3,8 +3,10 @@ import plotly.graph_objects as go
 from plotly.offline import plot
 import math
 
-def graficar(fx):
-    x_values = np.linspace(-50, 50, 10000)
+
+
+def graficar(fx, x_solucion):
+    x_values = np.linspace(x_solucion - 50, x_solucion + 50, 10000)
 
     funcion = [eval(fx, {'x': x, 'math': math}) for x in x_values]
 
@@ -14,11 +16,21 @@ def graficar(fx):
     # Añadimos el trazo de la función seno
     fig.add_trace(go.Scatter(x=x_values, y=funcion, mode='lines', line=dict(color='red', width=2), showlegend=False))
 
+    # Se agrega un punto para que se vea la solución
+    fig.add_trace(go.Scatter(
+    x=[x_solucion], y=[0],
+    mode='markers+text',
+    marker=dict(color='lightblue', size=10, symbol='circle'),
+    text=["Solución"],
+    textposition="top right",
+    name='Solución'
+    ))
+
     # Establecemos los parámetros visuales para los ejes y la cuadrícula
     fig.update_layout(
         xaxis=dict(
             title="x",
-            range=[-10, 10],  # Rango fijo para el eje x
+            range=[x_solucion -10, x_solucion + 10],  # Rango fijo para el eje x
             gridcolor='lightgray',  # Color gris claro para la cuadrícula
             zeroline=True,  # Mostrar línea en x=0
             zerolinecolor='darkgray',  # Color gris oscuro para la línea en x=0

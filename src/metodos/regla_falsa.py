@@ -52,8 +52,10 @@ def regla_falsa_DC(a, b, dc, niter, fx, request):
     messages.error(request, f"Fracaso en {niter} iteraciones.")
 
   messages.success(request, "Se ejecuto el método de la regla falsa correctamente")
+
+  x_solucion = df.iloc[-1, 1]
   df = df.to_html(classes='table table-striped', index=False)
-  grafico = graficar(fx)
+  grafico = graficar(fx, x_solucion)
   return df, grafico
 
 def regla_falsa_CS(a, b, cs, niter, fx, request):
@@ -103,6 +105,8 @@ def regla_falsa_CS(a, b, cs, niter, fx, request):
     messages.error(request, f"Fracaso en {niter} iteraciones.")
 
   messages.success(request, "Se ejecuto el método de la regla falsa correctamente")
+  
+  x_solucion = df.iloc[-1, 1]
   df = df.to_html(classes='table table-striped', index=False)
-  grafico = graficar(fx)
+  grafico = graficar(fx, x_solucion)
   return df, grafico

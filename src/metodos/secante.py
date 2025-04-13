@@ -51,8 +51,10 @@ def secante_DC(X0, X1, DC, Niter, Fun, request):
     messages.error(request, f"Fracaso en {Niter} iteraciones.")
 
   messages.success(request, "Se ejecuto el método de la secante correctamente")
+
+  x_solucion = df.iloc[-1, 1]
   df = df.to_html(classes='table table-striped', index=False)
-  grafico = graficar(Fun)
+  grafico = graficar(Fun, x_solucion)
   return df, grafico
 
 def secante_CS(X0, X1, CS, Niter, Fun, request):
@@ -102,6 +104,8 @@ def secante_CS(X0, X1, CS, Niter, Fun, request):
     messages.error(request, f"Fracaso en {Niter} iteraciones.")
 
   messages.success(request, "Se ejecuto el método de la secante correctamente")
+
+  x_solucion = df.iloc[-1, 1]
   df = df.to_html(classes='table table-striped', index=False)
-  grafico = graficar(Fun)
+  grafico = graficar(Fun, x_solucion)
   return df, grafico

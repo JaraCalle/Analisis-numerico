@@ -54,8 +54,10 @@ def newton_m2_DC(X0, DC, Niter, Fun, derivada_fx1, derivada_fx2, request):
     messages.error(request, f"Fracaso en {Niter} iteraciones.")
 
   messages.success(request, "Se ejecuto el método de raíces múltiples correctamente")
+
+  x_solucion = df.iloc[-1, 1]
   df = df.to_html(classes='table table-striped', index=False)
-  grafico = graficar(Fun)
+  grafico = graficar(Fun, x_solucion)
   return df, grafico
 
 def newton_m2_CS(X0, CS, Niter, Fun, derivada_fx1, derivada_fx2, request):
@@ -108,6 +110,8 @@ def newton_m2_CS(X0, CS, Niter, Fun, derivada_fx1, derivada_fx2, request):
     messages.error(request, f"Fracaso en {Niter} iteraciones.")
 
   messages.success(request, "Se ejecuto el método de raíces múltiples correctamente")
+
+  x_solucion = df.iloc[-1, 1]
   df = df.to_html(classes='table table-striped', index=False)
-  grafico = graficar(Fun)
+  grafico = graficar(Fun, x_solucion)
   return df, grafico

@@ -48,8 +48,10 @@ def punto_fijo_DC(X0, g, DC, Niter, Fun, request):
     messages.error(request, f"Fracaso en {Niter} iteraciones.")
 
   messages.success(request, "Se ejecuto el método de punto fijo correctamente")
+
+  x_solucion = df.iloc[-1, 1]
   df = df.to_html(classes='table table-striped', index=False)
-  grafico = graficar(Fun)
+  grafico = graficar(Fun, x_solucion)
   return df, grafico
 
 def punto_fijo_CS(X0, g, CS, Niter, Fun, request):
@@ -96,6 +98,8 @@ def punto_fijo_CS(X0, g, CS, Niter, Fun, request):
     messages.error(request, f"Fracaso en {Niter} iteraciones.")
 
   messages.success(request, "Se ejecuto el método de punto fijo correctamente")
+  
+  x_solucion = df.iloc[-1, 1]
   df = df.to_html(classes='table table-striped', index=False)
-  grafico = graficar(Fun)
+  grafico = graficar(Fun, x_solucion)
   return df, grafico

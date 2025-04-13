@@ -84,8 +84,10 @@ def biseccion_DC(Xi, Xs, DC, Niter, Fun, request):
 		messages.error(request, "El intervalo es inadecuado")
 
 	messages.success(request, "Se ejecuto el método de la bisección correctamente")
+
+	x_solucion = df.iloc[-1, 1]
 	df = df.to_html(classes='table table-striped', index=False)
-	grafico = graficar(Fun)
+	grafico = graficar(Fun, x_solucion)
 	return df, grafico
 
 def biseccion_CS(Xi, Xs, CS, Niter, Fun, request):
@@ -167,6 +169,8 @@ def biseccion_CS(Xi, Xs, CS, Niter, Fun, request):
 		messages.error(request, "El intervalo es inadecuado")
 
 	messages.success(request, "Se ejecuto el método de la bisección correctamente")
+
+	x_solucion = df.iloc[-1, 1]
 	df = df.to_html(classes='table table-striped', index=False)
-	grafico = graficar(Fun)
+	grafico = graficar(Fun, x_solucion)
 	return df, grafico
