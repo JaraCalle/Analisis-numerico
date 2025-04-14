@@ -10,11 +10,11 @@ def biseccion_DC(Xi, Xs, DC, Niter, Fun, request):
 	raiz = verificar_existencia_raiz(Fun, Xi, Xs)
 
 	if not continuidad:
-		messages.error(request, "La función no es continua en el intervalo.")
+		messages.error(request, "Bisección: La función no es continua en el intervalo.")
 		return None, None
 	
 	if not raiz:
-		messages.error(request, "La función no tiene raíces en el intervalo.")
+		messages.error(request, "Bisección: La función no tiene raíces en el intervalo.")
 		return None, None
 
 	Tol = float(f'0.5E-{DC}')
@@ -73,17 +73,17 @@ def biseccion_DC(Xi, Xs, DC, Niter, Fun, request):
 			df.loc[len(df)] = [N, Xm, fe, Error]
 		if fe==0:
 				s=x
-				messages.success(request, f"{s} es raiz de f(x).")
+				messages.success(request, f"Bisección: {s} es raiz de f(x).")
 		elif Error<Tol:
 				s=x
-				messages.success(request, f"{s} es una aproximacion de un raiz de f(x) con una tolerancia {Tol}.")
+				messages.success(request, f"Bisección: {s} es una aproximacion de un raiz de f(x) con una tolerancia {Tol}.")
 		else:
 				s=x
-				messages.error(request, f"Fracaso en {Niter} iteraciones.")
+				messages.error(request, f"Bisección: Fracaso en {Niter} iteraciones.")
 	else:
-		messages.error(request, "El intervalo es inadecuado")
+		messages.error(request, "Bisección: El intervalo es inadecuado")
 
-	messages.success(request, "Se ejecuto el método de la bisección correctamente")
+	messages.success(request, "Bisección: Se ejecuto el método de la bisección correctamente")
 
 	x_solucion = df.iloc[-1, 1]
 	df = df.to_html(classes='table table-striped', index=False)
@@ -95,11 +95,11 @@ def biseccion_CS(Xi, Xs, CS, Niter, Fun, request):
 	raiz = verificar_existencia_raiz(Fun, Xi, Xs)
 
 	if not continuidad:
-		messages.error(request, "La función no es continua en el intervalo.")
+		messages.error(request, "Bisección: La función no es continua en el intervalo.")
 		return None, None
 	
 	if not raiz:
-		messages.error(request, "La función no tiene raíces en el intervalo.")
+		messages.error(request, "Bisección: La función no tiene raíces en el intervalo.")
 		return None, None
 
 	Tol = float(f'5E-{CS}')
@@ -158,17 +158,17 @@ def biseccion_CS(Xi, Xs, CS, Niter, Fun, request):
 			df.loc[len(df)] = [N, Xm, fe, Error]
 		if fe==0:
 				s=x
-				messages.success(request, f"{s} es raiz de f(x).")
+				messages.success(request, f"Bisección: {s} es raiz de f(x).")
 		elif Error<Tol:
 				s=x
-				messages.success(request, f"{s} es una aproximacion de un raiz de f(x) con una tolerancia {Tol}.")
+				messages.success(request, f"Bisección: {s} es una aproximacion de un raiz de f(x) con una tolerancia {Tol}.")
 		else:
 				s=x
-				messages.error(request, f"Fracaso en {Niter} iteraciones.")
+				messages.error(request, f"Bisección: Fracaso en {Niter} iteraciones.")
 	else:
-		messages.error(request, "El intervalo es inadecuado")
+		messages.error(request, "Bisección: El intervalo es inadecuado")
 
-	messages.success(request, "Se ejecuto el método de la bisección correctamente")
+	messages.success(request, "Bisección: Se ejecuto el método de la bisección correctamente")
 
 	x_solucion = df.iloc[-1, 1]
 	df = df.to_html(classes='table table-striped', index=False)

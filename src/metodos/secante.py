@@ -42,15 +42,15 @@ def secante_DC(X0, X1, DC, Niter, Fun, request):
     E.append(Error)
   if f==0:
     s=x
-    messages.success(request, f"{s} es raiz de f(x).")
+    messages.success(request, f"Secante: {s} es raiz de f(x).")
   elif Error<Tol:
     s=x
-    messages.success(request, f"{s} es una aproximacion de un raiz de f(x) con una tolerancia {Tol}.")
+    messages.success(request, f"Secante: {s} es una aproximacion de un raiz de f(x) con una tolerancia {Tol}.")
   else:
     s=x
-    messages.error(request, f"Fracaso en {Niter} iteraciones.")
+    messages.error(request, f"Secante: Fracaso en {Niter} iteraciones.")
 
-  messages.success(request, "Se ejecuto el método de la secante correctamente")
+  messages.success(request, "Secante: Se ejecuto el método de la secante correctamente")
 
   x_solucion = df.iloc[-1, 1]
   df = df.to_html(classes='table table-striped', index=False)
@@ -95,15 +95,15 @@ def secante_CS(X0, X1, CS, Niter, Fun, request):
     E.append(Error)
   if f==0:
     s=x
-    messages.success(request, f"{s} es raiz de f(x).")
+    messages.success(request, f"Secante: {s} es raiz de f(x).")
   elif Error<Tol:
     s=x
-    messages.success(request, f"{s} es una aproximacion de un raiz de f(x) con una tolerancia {Tol}.")
+    messages.success(request, f"Secante: {s} es una aproximacion de un raiz de f(x) con una tolerancia {Tol}.")
   else:
     s=x
-    messages.error(request, f"Fracaso en {Niter} iteraciones.")
+    messages.error(request, f"Secante: Fracaso en {Niter} iteraciones.")
 
-  messages.success(request, "Se ejecuto el método de la secante correctamente")
+  messages.success(request, "Secante: Se ejecuto el método de la secante correctamente")
 
   x_solucion = df.iloc[-1, 1]
   df = df.to_html(classes='table table-striped', index=False)

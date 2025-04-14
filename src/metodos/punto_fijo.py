@@ -39,15 +39,15 @@ def punto_fijo_DC(X0, g, DC, Niter, Fun, request):
 
   if fe==0:
     s=x
-    messages.success(request, f"{s} es raiz de f(x).")
+    messages.success(request, f"Punto Fijo: {s} es raiz de f(x).")
   elif Error<Tol:
     s=x
-    messages.success(request, f"{s} es una aproximacion de un raiz de f(x) con una tolerancia {Tol}.")
+    messages.success(request, f"Punto Fijo: {s} es una aproximacion de un raiz de f(x) con una tolerancia {Tol}.")
   else:
     s=x
-    messages.error(request, f"Fracaso en {Niter} iteraciones.")
+    messages.error(request, f"Punto Fijo: Fracaso en {Niter} iteraciones.")
 
-  messages.success(request, "Se ejecuto el método de punto fijo correctamente")
+  messages.success(request, "Punto Fijo: Se ejecuto el método de punto fijo correctamente")
 
   x_solucion = df.iloc[-1, 1]
   df = df.to_html(classes='table table-striped', index=False)
@@ -89,16 +89,16 @@ def punto_fijo_CS(X0, g, CS, Niter, Fun, request):
 
   if fe==0:
     s=x
-    messages.success(request, f"{s} es raiz de f(x).")
+    messages.success(request, f"Punto Fijo: {s} es raiz de f(x).")
   elif Error<Tol:
     s=x
-    messages.success(request, f"{s} es una aproximacion de un raiz de f(x) con una tolerancia {Tol}.")
+    messages.success(request, f"Punto Fijo: {s} es una aproximacion de un raiz de f(x) con una tolerancia {Tol}.")
   else:
     s=x
-    messages.error(request, f"Fracaso en {Niter} iteraciones.")
+    messages.error(request, f"Punto Fijo: Fracaso en {Niter} iteraciones.")
 
-  messages.success(request, "Se ejecuto el método de punto fijo correctamente")
-  
+  messages.success(request, "Punto Fijo: Se ejecuto el método de punto fijo correctamente")
+
   x_solucion = df.iloc[-1, 1]
   df = df.to_html(classes='table table-striped', index=False)
   grafico = graficar(Fun, x_solucion)

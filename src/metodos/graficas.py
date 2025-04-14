@@ -18,12 +18,12 @@ def graficar(fx, x_solucion):
 
     # Se agrega un punto para que se vea la solución
     fig.add_trace(go.Scatter(
-    x=[x_solucion], y=[0],
-    mode='markers+text',
-    marker=dict(color='lightblue', size=10, symbol='circle'),
-    text=["Solución"],
-    textposition="top right",
-    name='Solución'
+        x=[x_solucion], y=[0],
+        mode='markers+text',
+        marker=dict(color='lightblue', size=10, symbol='circle'),
+        text=["Solución"],
+        textposition="top right",
+        name='Solución'
     ))
 
     # Establecemos los parámetros visuales para los ejes y la cuadrícula

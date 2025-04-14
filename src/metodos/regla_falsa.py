@@ -10,11 +10,11 @@ def regla_falsa_DC(a, b, dc, niter, fx, request):
   raiz = verificar_existencia_raiz(fx, a, b)
 
   if not continuidad:
-    messages.error(request, "La función no es continua en el intervalo.")
+    messages.error(request, "Regla Falsa: La función no es continua en el intervalo.")
     return None, None
 
   if not raiz:
-    messages.error(request, "La función no tiene raíces en el intervalo.")
+    messages.error(request, "Regla Falsa: La función no tiene raíces en el intervalo.")
     return None, None
      
   i = 1
@@ -43,15 +43,15 @@ def regla_falsa_DC(a, b, dc, niter, fx, request):
 
   if fe==0:
     s=xm
-    messages.success(request, f"{s} es raiz de f(x).")
+    messages.success(request, f"Regla Falsa: {s} es raiz de f(x).")
   elif E<tol:
     s=xm
-    messages.success(request, f"{s} es una aproximacion de un raiz de f(x) con una tolerancia {tol}.")
+    messages.success(request, f"Regla Falsa: {s} es una aproximacion de un raiz de f(x) con una tolerancia {tol}.")
   else:
     s=xm
-    messages.error(request, f"Fracaso en {niter} iteraciones.")
+    messages.error(request, f"Regla Falsa: Fracaso en {niter} iteraciones.")
 
-  messages.success(request, "Se ejecuto el método de la regla falsa correctamente")
+  messages.success(request, "Regla Falsa: Se ejecuto el método de la regla falsa correctamente")
 
   x_solucion = df.iloc[-1, 1]
   df = df.to_html(classes='table table-striped', index=False)
@@ -105,7 +105,7 @@ def regla_falsa_CS(a, b, cs, niter, fx, request):
     messages.error(request, f"Fracaso en {niter} iteraciones.")
 
   messages.success(request, "Se ejecuto el método de la regla falsa correctamente")
-  
+
   x_solucion = df.iloc[-1, 1]
   df = df.to_html(classes='table table-striped', index=False)
   grafico = graficar(fx, x_solucion)

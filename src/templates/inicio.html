@@ -1,145 +1,209 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Análisis Numérico</title>
+    <style>
+        .section {
+        display: none;
+        padding: 1rem;
+        }
+
+        .active {
+        display: block;
+        }
+    </style>
 </head>
 <body>
-    <form method="post">
-        {% csrf_token %}
+    <nav>
+        <a onclick="showSection('enl')">Solución de Ecuaciones no Lineales (ENL)</a>
+        <a onclick="showSection('reporte_enl')">Reporte ENL</a>
+    </nav>
 
-        <label for="funcion">Función f(x):</label>
-        <input type="text" id="funcion" name="funcion" required>
+    <!-- Solución de Ecuaciones no Lineales (ENL) -->
 
-        <br><br>
-        <label for="iteraciones">Número de iteraciones:</label>
-        <input type="number" name="iteraciones" min="1" required>
+    <div id="enl" class="section {% if formulario_activo == "enl" or not formulario_activo %}active{% endif %}">
+        <form method="post">
+            {% csrf_token %}
 
-        <br><br>
-        <label for="metodo">Elija un método:</label>
-        <select id="metodo" name="metodo" onchange="actualizarFormulario()" required>
-            <option value="">-- Seleccione --</option>
-            <option value="Biseccion">Bisección</option>
-            <option value="Regla Falsa">Regla Falsa</option>
-            <option value="Punto Fijo">Punto Fijo</option>
-            <option value="Newton">Newton</option>
-            <option value="Secante">Secante</option>
-            <option value="Newton M2">Raíces Múltiples</option>
-        </select>
+            <input type="hidden" name="formulario" value="enl">
+    
+            <label for="funcion">Función f(x):</label>
+            <input type="text" id="funcion" name="funcion" required>
+    
+            <br><br>
+            <label for="iteraciones">Número de iteraciones:</label>
+            <input type="number" name="iteraciones" min="1" required>
+    
+            <br><br>
+            <label for="metodo">Elija un método:</label>
+            <select id="metodo" name="metodo" onchange="actualizarFormularioENL()" required>
+                <option value="">-- Seleccione --</option>
+                <option value="Biseccion">Bisección</option>
+                <option value="Regla Falsa">Regla Falsa</option>
+                <option value="Punto Fijo">Punto Fijo</option>
+                <option value="Newton">Newton</option>
+                <option value="Secante">Secante</option>
+                <option value="Newton M2">Raíces Múltiples</option>
+            </select>
+    
+            <br><br>
+            <label>Tipo de tolerancia:</label><br>
+            <input type="radio" id="dc" name="tipo_error" value="DC" required>
+            <label for="dc">Decimales Correctos</label><br>
+            <input type="radio" id="cs" name="tipo_error" value="CS">
+            <label for="cs">Cifras Significativas</label><br>
+    
+            <label for="tolerancia">Ingrese valor de tolerancia:</label>
+            <input type="text" id="tolerancia" name="tolerancia" required>
+    
+            <br><br>
+    
+            <!-- Intervalo (solo para Bisección y Regla Falsa) -->
+            <div id="intervalo" style="display:none;">
+                <label for="inferior">Límite inferior del intervalo:</label>
+                <input type="text" name="inferior"><br>
+    
+                <label for="superior">Límite superior del intervalo:</label>
+                <input type="text" name="superior"><br>
+            </div>
+    
+            <!-- Punto inicial (excepto Secante) -->
+            <div id="punto_inicial" style="display:none;">
+                <label for="punto_inicial">Punto inicial:</label>
+                <input type="text" id="punto" name="punto_inicial"><br>
+            </div>
+    
+            <!-- Punto inicial para Secante -->
+            <div id="punto_inicial_secante" style="display:none;">
+                <label for="punto_inicial_1">Punto inicial 1:</label>
+                <input type="text" name="punto_inicial_1"><br>
+    
+                <label for="punto_inicial_2">Punto inicial 2:</label>
+                <input type="text" name="punto_inicial_2"><br>
+            </div>
+    
+            <!-- g(x) para Punto Fijo -->
+            <div id="gx_input" style="display:none;">
+                <label for="g">Función g(x):</label>
+                <input type="text" name="g"><br>
+            </div>
+    
+            <!-- f'(x) para Newton y Raíces Múltiples -->
+            <div id="derivada1_input" style="display:none;">
+                <label for="derivada">Primera derivada f'(x):</label>
+                <input type="text" name="derivada"><br>
+            </div>
+    
+            <!-- f''(x) solo para Raíces Múltiples -->
+            <div id="derivada2_input" style="display:none;">
+                <label for="segunda_derivada">Segunda derivada f''(x):</label>
+                <input type="text" name="segunda_derivada"><br>
+            </div>
+    
+            <br>
+            <button type="submit">Calcular Raíces</button>
+        </form>
 
-        <br><br>
-        <label>Tipo de tolerancia:</label><br>
-        <input type="radio" id="dc" name="tipo_error" value="DC" required>
-        <label for="dc">Decimales Correctos</label><br>
-        <input type="radio" id="cs" name="tipo_error" value="CS">
-        <label for="cs">Cifras Significativas</label><br>
-
-        <label for="tolerancia">Ingrese valor de tolerancia:</label>
-        <input type="text" id="tolerancia" name="tolerancia" required>
-
-        <br><br>
-
-        <!-- Intervalo (solo para Bisección y Regla Falsa) -->
-        <div id="intervalo" style="display:none;">
-            <label for="inferior">Límite inferior del intervalo:</label>
-            <input type="text" name="inferior"><br>
-
-            <label for="superior">Límite superior del intervalo:</label>
-            <input type="text" name="superior"><br>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    
+        <h1>Resultados</h1>
+        <div>
+            {{ tabla|safe }}
         </div>
-
-        <!-- Punto inicial (excepto Secante) -->
-        <div id="punto_inicial" style="display:none;">
-            <label for="punto_inicial">Punto inicial:</label>
-            <input type="text" id="punto" name="punto_inicial"><br>
+    
+        <h1>Gráfica</h1>
+        
+        <!-- Aquí se incluye el gráfico interactivo de Plotly -->
+        <div>
+            {{ grafico|safe }}
         </div>
-
-        <!-- Punto inicial para Secante -->
-        <div id="punto_inicial_secante" style="display:none;">
-            <label for="punto_inicial_1">Punto inicial 1:</label>
-            <input type="text" name="punto_inicial_1"><br>
-
-            <label for="punto_inicial_2">Punto inicial 2:</label>
-            <input type="text" name="punto_inicial_2"><br>
-        </div>
-
-        <!-- g(x) para Punto Fijo -->
-        <div id="gx_input" style="display:none;">
-            <label for="g">Función g(x):</label>
-            <input type="text" name="g"><br>
-        </div>
-
-        <!-- f'(x) para Newton y Raíces Múltiples -->
-        <div id="derivada1_input" style="display:none;">
-            <label for="derivada">Primera derivada f'(x):</label>
-            <input type="text" name="derivada"><br>
-        </div>
-
-        <!-- f''(x) solo para Raíces Múltiples -->
-        <div id="derivada2_input" style="display:none;">
-            <label for="segunda_derivada">Segunda derivada f''(x):</label>
-            <input type="text" name="segunda_derivada"><br>
-        </div>
-
-        <br>
-        <button type="submit">Calcular Raíces</button>
-    </form>
-
-
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li class="{{ message.tags }}">{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-
-    <h1>Resultados</h1>
-    <div>
-        {{ tabla|safe }}
     </div>
 
-    <h1>Gráfica</h1>
+    <!-- Reporte ENL -->
+
+    <div id="reporte_enl" class="section {% if formulario_activo == "reporte_enl" %}active{% endif %}">
+        <form method="post">
+            {% csrf_token %}
+
+            <input type="hidden" name="formulario" value="reporte_enl">
+
+            <label for="funcion">Función f(x):</label>
+            <input type="text" id="funcion" name="funcion" required>
     
-    <!-- Aquí se incluye el gráfico interactivo de Plotly -->
-    <div>
-        {{ grafico|safe }}
+            <label for="iteraciones">Número de iteraciones:</label>
+            <input type="number" name="iteraciones" min="1" required>
+    
+            <label>Tipo de tolerancia:</label><br>
+            <input type="radio" id="dc" name="tipo_error" value="DC" required>
+            <label for="dc">Decimales Correctos</label><br>
+            <input type="radio" id="cs" name="tipo_error" value="CS">
+            <label for="cs">Cifras Significativas</label><br>
+    
+            <label for="tolerancia">Ingrese valor de tolerancia:</label>
+            <input type="text" id="tolerancia" name="tolerancia" required>
+
+            <div id="intervalo">
+                <label for="inferior">Límite inferior del intervalo:</label>
+                <input type="text" name="inferior"><br>
+    
+                <label for="superior">Límite superior del intervalo:</label>
+                <input type="text" name="superior"><br>
+            </div>
+    
+            <div id="punto_inicial_secante">
+                <label for="punto_inicial_1">Punto inicial 1:</label>
+                <input type="text" name="punto_inicial_1"><br>
+    
+                <label for="punto_inicial_2">Punto inicial 2:</label>
+                <input type="text" name="punto_inicial_2"><br>
+            </div>
+    
+            <div id="gx_input">
+                <label for="g">Función g(x):</label>
+                <input type="text" name="g"><br>
+            </div>
+    
+            <div id="derivada1_input">
+                <label for="derivada">Primera derivada f'(x):</label>
+                <input type="text" name="derivada"><br>
+            </div>
+    
+            <div id="derivada2_input">
+                <label for="segunda_derivada">Segunda derivada f''(x):</label>
+                <input type="text" name="segunda_derivada"><br>
+            </div>
+    
+            <button type="submit">Generar Reporte</button>
+
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        
+            <h1>Reporte</h1>
+            <div>
+                {{ reporte|safe }}
+            </div>
+        
+            <h1>Tabla Solución</h1>
+            
+            <div>
+                {{ tabla|safe }}
+            </div>
+        </form>
     </div>
 </body>
-
-<script>
-    function actualizarFormulario() {
-        const metodo = document.getElementById("metodo").value;
-
-        // Ocultar todos los campos primero
-        document.getElementById("intervalo").style.display = "none";
-        document.getElementById("punto_inicial").style.display = "none";
-        document.getElementById("punto_inicial_secante").style.display = "none";
-        document.getElementById("gx_input").style.display = "none";
-        document.getElementById("derivada1_input").style.display = "none";
-        document.getElementById("derivada2_input").style.display = "none";
-
-        // Mostrar según método
-        if (metodo === "Biseccion" || metodo === "Regla Falsa") {
-    document.getElementById("intervalo").style.display = "block";
-        } else if (metodo === "Secante") {
-            document.getElementById("punto_inicial_secante").style.display = "block";
-        } else {
-            document.getElementById("punto_inicial").style.display = "block";
-        }
-
-        if (metodo === "Punto Fijo") {
-            document.getElementById("gx_input").style.display = "block";
-        }
-
-        if (metodo === "Newton" || metodo === "Newton M2") {
-            document.getElementById("derivada1_input").style.display = "block";
-        }
-
-        if (metodo === "Newton M2") {
-            document.getElementById("derivada2_input").style.display = "block";
-        }
-    }
-</script>
+<script src="{% static 'js/inicio.js' %}"></script>
 </html>

@@ -45,15 +45,15 @@ def newton_m2_DC(X0, DC, Niter, Fun, derivada_fx1, derivada_fx2, request):
     E.append(Error)
   if f==0:
     s=x
-    messages.success(request, f"{s} es raiz de f(x).")
+    messages.success(request, f"Raíces Múltiples: {s} es raiz de f(x).")
   elif Error<Tol:
     s=x
-    messages.success(request, f"{s} es una aproximacion de un raiz de f(x) con una tolerancia {Tol}.")
+    messages.success(request, f"Raíces Múltiples: {s} es una aproximacion de un raiz de f(x) con una tolerancia {Tol}.")
   else:
     s=x
-    messages.error(request, f"Fracaso en {Niter} iteraciones.")
+    messages.error(request, f"Raíces Múltiples: Fracaso en {Niter} iteraciones.")
 
-  messages.success(request, "Se ejecuto el método de raíces múltiples correctamente")
+  messages.success(request, "Raíces Múltiples: Se ejecuto el método de raíces múltiples correctamente")
 
   x_solucion = df.iloc[-1, 1]
   df = df.to_html(classes='table table-striped', index=False)
@@ -101,15 +101,15 @@ def newton_m2_CS(X0, CS, Niter, Fun, derivada_fx1, derivada_fx2, request):
     E.append(Error)
   if f==0:
     s=x
-    messages.success(request, f"{s} es raiz de f(x).")
+    messages.success(request, f"Raíces Múltiples: {s} es raiz de f(x).")
   elif Error<Tol:
     s=x
-    messages.success(request, f"{s} es una aproximacion de un raiz de f(x) con una tolerancia {Tol}.")
+    messages.success(request, f"Raíces Múltiples: {s} es una aproximacion de un raiz de f(x) con una tolerancia {Tol}.")
   else:
     s=x
-    messages.error(request, f"Fracaso en {Niter} iteraciones.")
+    messages.error(request, f"Raíces Múltiples: Fracaso en {Niter} iteraciones.")
 
-  messages.success(request, "Se ejecuto el método de raíces múltiples correctamente")
+  messages.success(request, "Raíces Múltiples: Se ejecuto el método de raíces múltiples correctamente")
 
   x_solucion = df.iloc[-1, 1]
   df = df.to_html(classes='table table-striped', index=False)
