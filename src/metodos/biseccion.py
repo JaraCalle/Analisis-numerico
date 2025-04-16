@@ -73,20 +73,17 @@ def biseccion_DC(Xi, Xs, DC, Niter, Fun, request):
 			df.loc[len(df)] = [N, Xm, fe, Error]
 		if fe==0:
 				s=x
-				messages.success(request, f"Bisección: {s} es raiz de f(x).")
+				messages.success(request, f"Bisección: {s} es raíz de f(x).")
 		elif Error<Tol:
 				s=x
-				messages.success(request, f"Bisección: {s} es una aproximacion de un raiz de f(x) con una tolerancia {Tol}.")
+				messages.success(request, f"Bisección: {s} es una aproximación de un raiz de f(x) con una tolerancia {Tol}.")
 		else:
 				s=x
-				messages.error(request, f"Bisección: Fracaso en {Niter} iteraciones.")
+				messages.error(request, f"Bisección: Fracasó en {Niter} iteraciones.")
 	else:
 		messages.error(request, "Bisección: El intervalo es inadecuado")
 
-	messages.success(request, "Bisección: Se ejecuto el método de la bisección correctamente")
-
 	x_solucion = df.iloc[-1, 1]
-	df = df.to_html(classes='table table-striped', index=False)
 	grafico = graficar(Fun, x_solucion)
 	return df, grafico
 
@@ -158,19 +155,16 @@ def biseccion_CS(Xi, Xs, CS, Niter, Fun, request):
 			df.loc[len(df)] = [N, Xm, fe, Error]
 		if fe==0:
 				s=x
-				messages.success(request, f"Bisección: {s} es raiz de f(x).")
+				messages.success(request, f"Bisección: {s} es raíz de f(x).")
 		elif Error<Tol:
 				s=x
-				messages.success(request, f"Bisección: {s} es una aproximacion de un raiz de f(x) con una tolerancia {Tol}.")
+				messages.success(request, f"Bisección: {s} es una aproximación de un raíz de f(x) con una tolerancia {Tol}.")
 		else:
 				s=x
-				messages.error(request, f"Bisección: Fracaso en {Niter} iteraciones.")
+				messages.error(request, f"Bisección: Fracasó en {Niter} iteraciones.")
 	else:
 		messages.error(request, "Bisección: El intervalo es inadecuado")
 
-	messages.success(request, "Bisección: Se ejecuto el método de la bisección correctamente")
-
 	x_solucion = df.iloc[-1, 1]
-	df = df.to_html(classes='table table-striped', index=False)
 	grafico = graficar(Fun, x_solucion)
 	return df, grafico

@@ -48,7 +48,9 @@ def verificar_continuidad(fx, a, b):
 # Determinar si f(a) * f(b) < 0
 def verificar_existencia_raiz(fx, a, b):
     fa = eval(fx, {'x': a, 'math': math})
+    print(fa)
     fb = eval(fx, {'x': b,'math': math})
+    print(fb)
     if fa * fb < 0:
         return True
     else:

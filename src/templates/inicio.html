@@ -20,6 +20,7 @@
     <nav>
         <a onclick="showSection('enl')">Solución de Ecuaciones no Lineales (ENL)</a>
         <a onclick="showSection('reporte_enl')">Reporte ENL</a>
+        <a onclick="showSection('iterativos')">Métodos Iterativos</a>
     </nav>
 
     <!-- Solución de Ecuaciones no Lineales (ENL) -->
@@ -133,7 +134,6 @@
     <div id="reporte_enl" class="section {% if formulario_activo == "reporte_enl" %}active{% endif %}">
         <form method="post">
             {% csrf_token %}
-
             <input type="hidden" name="formulario" value="reporte_enl">
 
             <label for="funcion">Función f(x):</label>
@@ -201,6 +201,75 @@
             
             <div>
                 {{ tabla|safe }}
+            </div>
+        </form>
+    </div>
+
+    <!-- Métodos Iterativos -->
+
+    <div id="iterativos" class="section {% if formulario_activo == "iterativos" %}active{% endif %}">
+        <form method="post" onsubmit="return validarFormulario()">
+            {% csrf_token %}
+
+            <input type="hidden" name="formulario" value="iterativos">
+
+            <label for="size_A">Tamaño de la matriz A:</label>
+            <input type="number" id="size_A" name="size_A" min="1" max="10" required onchange="generarMatriz()">
+
+            <div id="contenedor-matriz"></div>
+    
+            <div id="contenedor-vector-b"></div>
+
+            <div id="contenedor-vector-x0"></div>
+
+            <label for="metodo_iterativo">Elija un método:</label>
+            <select id="metodo_iterativo" name="metodo_iterativo" onchange="actualizarFormularioIterativas()" required>
+                <option value="">-- Seleccione --</option>
+                <option value="jacobi">Jacobi</option>
+                <option value="seidel">Gauss-Seidel</option>
+                <option value="sor">Relajación (SOR)</option>
+            </select>
+
+            <div id="peso_w_input" style="display:none;">
+                <label for="peso_w">Peso w:</label>
+                <input type="number" step="any" name="peso_w"><br>
+            </div>
+    
+            <label>Tipo de tolerancia:</label><br>
+            <input type="radio" id="dc" name="tipo_error" value="DC" required>
+            <label for="dc">Decimales Correctos</label><br>
+            <input type="radio" id="cs1" name="tipo_error" value="CS1">
+            <label for="cs1">Cifras Significativas con División Punto</label>
+            <input type="radio" id="cs2" name="tipo_error" value="CS2">
+            <label for="cs2">Cifras Significativas con División por la Norma</label>
+    
+            <label for="tolerancia">Ingrese valor de tolerancia:</label>
+            <input type="text" id="tolerancia" name="tolerancia" required>
+
+            <label for="iteraciones">Número de iteraciones:</label>
+            <input type="number" name="iteraciones" min="1" required>
+
+    
+            <button type="submit">Calcular Solución</button>
+
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        
+            <h1>Solución del Método</h1>
+            <div>
+                {{ tabla|safe }}
+            </div>
+        
+            <h1>Comparación con Otros Métodos</h1>
+            
+            <div>
+                <p>A continuación se presenta una tabla de comparación entre los tres métodos. Para el método SOR se hicieron iteraciones adicionales con pesos aleatorios.</p>
+                {{ reporte|safe }}
             </div>
         </form>
     </div>

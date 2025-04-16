@@ -43,18 +43,15 @@ def regla_falsa_DC(a, b, dc, niter, fx, request):
 
   if fe==0:
     s=xm
-    messages.success(request, f"Regla Falsa: {s} es raiz de f(x).")
+    messages.success(request, f"Regla Falsa: {s} es raíz de f(x).")
   elif E<tol:
     s=xm
-    messages.success(request, f"Regla Falsa: {s} es una aproximacion de un raiz de f(x) con una tolerancia {tol}.")
+    messages.success(request, f"Regla Falsa: {s} es una aproximación de un raíz de f(x) con una tolerancia {tol}.")
   else:
     s=xm
-    messages.error(request, f"Regla Falsa: Fracaso en {niter} iteraciones.")
-
-  messages.success(request, "Regla Falsa: Se ejecuto el método de la regla falsa correctamente")
+    messages.error(request, f"Regla Falsa: Fracasó en {niter} iteraciones.")
 
   x_solucion = df.iloc[-1, 1]
-  df = df.to_html(classes='table table-striped', index=False)
   grafico = graficar(fx, x_solucion)
   return df, grafico
 
@@ -96,17 +93,14 @@ def regla_falsa_CS(a, b, cs, niter, fx, request):
 
   if fe==0:
     s=xm
-    messages.success(request, f"{s} es raiz de f(x).")
+    messages.success(request, f"{s} es raíz de f(x).")
   elif E<tol:
     s=xm
-    messages.success(request, f"{s} es una aproximacion de un raiz de f(x) con una tolerancia {tol}.")
+    messages.success(request, f"{s} es una aproximación de un raíz de f(x) con una tolerancia {tol}.")
   else:
     s=xm
-    messages.error(request, f"Fracaso en {niter} iteraciones.")
-
-  messages.success(request, "Se ejecuto el método de la regla falsa correctamente")
+    messages.error(request, f"Fracasó en {niter} iteraciones.")
 
   x_solucion = df.iloc[-1, 1]
-  df = df.to_html(classes='table table-striped', index=False)
   grafico = graficar(fx, x_solucion)
   return df, grafico

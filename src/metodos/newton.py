@@ -40,17 +40,15 @@ def newton_DC(X0, DC, Niter, Fun, derivada_fx, request):
     E.append(Error)
   if f==0:
     s=x
-    messages.success(request, f"Newton: {s} es raiz de f(x).")
+    messages.success(request, f"Newton: {s} es raíz de f(x).")
   elif Error<Tol:
     s=x
-    messages.success(request, f"Newton: {s} es una aproximacion de un raiz de f(x) con una tolerancia {Tol}.")
+    messages.success(request, f"Newton: {s} es una aproximación de un raíz de f(x) con una tolerancia {Tol}.")
   else:
     s=x
-    messages.error(request, f"Newton: Fracaso en {Niter} iteraciones.")
+    messages.error(request, f"Newton: Fracasó en {Niter} iteraciones.")
 
-  messages.success(request, "Newton: Se ejecuto el método de newton correctamente")
   x_solucion = df.iloc[-1, 1]
-  df = df.to_html(classes='table table-striped', index=False)
   grafico = graficar(Fun, x_solucion)
   return df, grafico
 
@@ -90,17 +88,14 @@ def newton_CS(X0, CS, Niter, Fun, derivada_fx, request):
     E.append(Error)
   if f==0:
     s=x
-    messages.success(request, f"Newton: {s} es raiz de f(x).")
+    messages.success(request, f"Newton: {s} es raíz de f(x).")
   elif Error<Tol:
     s=x
-    messages.success(request, f"Newton: {s} es una aproximacion de un raiz de f(x) con una tolerancia {Tol}.")
+    messages.success(request, f"Newton: {s} es una aproximación de un raíz de f(x) con una tolerancia {Tol}.")
   else:
     s=x
-    messages.error(request, f"Newton: Fracaso en {Niter} iteraciones.")
-
-  messages.success(request, "Newton: Se ejecuto el método de newton correctamente")
+    messages.error(request, f"Newton: Fracasó en {Niter} iteraciones.")
 
   x_solucion = df.iloc[-1, 1]
-  df = df.to_html(classes='table table-striped', index=False)
   grafico = graficar(Fun, x_solucion)
   return df, grafico
