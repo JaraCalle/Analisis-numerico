@@ -12,26 +12,39 @@ from .jacobi_seidel import MatJacobiSeid_DC, MatJacobiSeid_CS1, MatJacobiSeid_CS
 from .sor import SOR_DC, SOR_CS1, SOR_CS2
 
 def inicio(request):
-    df = None
-    grafico = None
+    df_enl = None
+    grafico_enl = None
     reporte = None
+    df_reporte_enl = None
+    reporte_enl = None
+    df_iterativos = None
+    reporte_iterativos = None
+    diccionario = {'tabla_enl': df_enl, 'grafico_enl': grafico_enl, 'tabla_reporte_enl': df_reporte_enl, 'reporte_enl': reporte_enl,
+                    'tabla_iterativos': df_iterativos, 'reporte_iterativos': reporte_iterativos, 'formulario_activo': "enl"}
+    
 
     if request.method == "POST":
         formulario = request.POST.get("formulario")
 
         if formulario == "enl":
-            df, grafico = enl(request)
-            return render(request, 'inicio.html', {'tabla': df, 'grafico': grafico, 'reporte': reporte, 'formulario_activo': formulario})
+            df_enl, grafico_enl = enl(request)
+            diccionario = {'tabla_enl': df_enl, 'grafico_enl': grafico_enl, 'tabla_reporte_enl': df_reporte_enl, 'reporte_enl': reporte_enl,
+                           'tabla_iterativos': df_iterativos, 'reporte_iterativos': reporte_iterativos, 'formulario_activo': formulario}
+            return render(request, 'inicio.html', diccionario)
 
         elif formulario == "reporte_enl":
-            df, reporte = crear_reporte_enl(request)
-            return render(request, 'inicio.html', {'tabla': df, 'grafico': grafico, 'reporte': reporte, 'formulario_activo': formulario})
+            df_reporte_enl, reporte_enl = crear_reporte_enl(request)
+            diccionario = {'tabla_enl': df_enl, 'grafico_enl': grafico_enl, 'tabla_reporte_enl': df_reporte_enl, 'reporte_enl': reporte_enl,
+                           'tabla_iterativos': df_iterativos, 'reporte_iterativos': reporte_iterativos, 'formulario_activo': formulario}
+            return render(request, 'inicio.html', diccionario)
         
         elif formulario == "iterativos":
-            df, reporte = iterativos(request)
-            return render(request, 'inicio.html', {'tabla': df, 'grafico': grafico, 'reporte': reporte, 'formulario_activo': formulario})
+            df_iterativos, reporte_iterativos = iterativos(request)
+            diccionario = {'tabla_enl': df_enl, 'grafico_enl': grafico_enl, 'tabla_reporte_enl': df_reporte_enl, 'reporte_enl': reporte_enl,
+                           'tabla_iterativos': df_iterativos, 'reporte_iterativos': reporte_iterativos, 'formulario_activo': formulario}
+            return render(request, 'inicio.html', diccionario)
     
-    return render(request, 'inicio.html', {'tabla': df, 'grafico': grafico, 'reporte': reporte, 'formulario_activo': "enl"})
+    return render(request, 'inicio.html', diccionario)
 
 def enl(request):
     metodo = request.POST.get("metodo")

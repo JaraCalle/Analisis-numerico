@@ -1,65 +1,119 @@
 document.getElementById("size_A").addEventListener("input", generarMatriz);
 
+function showSection(id, linkElement) {
+  // Oculta todas las secciones
+  const sections = document.querySelectorAll(".section");
+  sections.forEach(section => section.classList.remove("active"));
+
+  // Muestra solo la sección correspondiente
+  const selectedSection = document.getElementById(id);
+  if (selectedSection) {
+      selectedSection.classList.add("active");
+  }
+
+  // Remueve clase activa de todos los enlaces
+  const links = document.querySelectorAll(".navegacion a");
+  links.forEach(link => link.classList.remove("active-link"));
+
+  // Añade clase activa al enlace actual
+  if (linkElement) {
+      linkElement.classList.add("active-link");
+  }
+}
+
+function initPage() {
+  // Llama a showSection pasando el primer enlace como si se hubiera hecho click
+  const defaultLink = document.querySelector('nav a');
+  showSection('enl', defaultLink);
+}
+
+/*
 function showSection(id) {
     const sections = document.querySelectorAll('.section');
     sections.forEach(section => {
       section.classList.remove('active');
     });
     document.getElementById(id).classList.add('active');
-  }
+}*/
 
 function actualizarFormularioENL() {
-    const metodo = document.getElementById("metodo").value;
+  const metodo = document.getElementById("metodo").value;
 
-    // Ocultar todos los campos primero
-    document.getElementById("intervalo").style.display = "none";
-    document.getElementById("punto_inicial").style.display = "none";
-    document.getElementById("punto_inicial_secante").style.display = "none";
-    document.getElementById("gx_input").style.display = "none";
-    document.getElementById("derivada1_input").style.display = "none";
-    document.getElementById("derivada2_input").style.display = "none";
+  // Ocultar todos los campos primero
+  console.log('Método seleccionado:', metodo); // Verificar el valor de 'metodo'
 
-    // Mostrar según método
-    if (metodo === "Biseccion" || metodo === "Regla Falsa") {
-        document.getElementById("intervalo").style.display = "block";
-    } else if (metodo === "Secante") {
-        document.getElementById("punto_inicial_secante").style.display = "block";
-    } else {
-        document.getElementById("punto_inicial").style.display = "block";
-    }
+  document.getElementById("intervalo").classList.remove('visible');
+  document.getElementById("punto_inicial").classList.remove('visible');
+  document.getElementById("punto_inicial_secante").classList.remove('visible');
+  document.getElementById("gx_input").classList.remove('visible');
+  document.getElementById("derivada1_input").classList.remove('visible');
+  document.getElementById("derivada2_input").classList.remove('visible');
 
-    if (metodo === "Punto Fijo") {
-        document.getElementById("gx_input").style.display = "block";
-    }
+  document.getElementById("intervalo").classList.add('oculto');
+  document.getElementById("punto_inicial").classList.add('oculto');
+  document.getElementById("punto_inicial_secante").classList.add('oculto');
+  document.getElementById("gx_input").classList.add('oculto');
+  document.getElementById("derivada1_input").classList.add('oculto');
+  document.getElementById("derivada2_input").classList.add('oculto');
 
-    if (metodo === "Newton" || metodo === "Newton M2") {
-        document.getElementById("derivada1_input").style.display = "block";
-    }
+  // Mostrar según el método seleccionado
+  if (metodo === "Biseccion" || metodo === "Regla Falsa") {
+    document.getElementById("intervalo").classList.add('visible');
+    document.getElementById("intervalo").classList.remove('oculto');
+  } else if (metodo === "Secante") {
+    document.getElementById("punto_inicial_secante").classList.remove('oculto');
+    document.getElementById("punto_inicial_secante").classList.add('visible');
+  } else {
+    document.getElementById("punto_inicial").classList.remove('oculto');
+    document.getElementById("punto_inicial").classList.add('visible');
+  }
 
-    if (metodo === "Newton M2") {
-        document.getElementById("derivada2_input").style.display = "block";
-    }
-    if (metodo == "") {
-        document.getElementById("intervalo").style.display = "none";
-        document.getElementById("punto_inicial").style.display = "none";
-        document.getElementById("punto_inicial_secante").style.display = "none";
-        document.getElementById("gx_input").style.display = "none";
-        document.getElementById("derivada1_input").style.display = "none";
-        document.getElementById("derivada2_input").style.display = "none";
-    }
+  if (metodo === "Punto Fijo") {
+    document.getElementById("gx_input").classList.remove('oculto');
+    document.getElementById("gx_input").classList.add('visible');
+  }
+
+  if (metodo === "Newton" || metodo === "Newton M2") {
+    document.getElementById("derivada1_input").classList.remove('oculto');
+    document.getElementById("derivada1_input").classList.add('visible');
+  }
+
+  if (metodo === "Newton M2") {
+    document.getElementById("derivada2_input").classList.remove('oculto');
+    document.getElementById("derivada2_input").classList.add('visible');
+  }
+
+  if (metodo == "") {
+    document.getElementById("intervalo").classList.remove('visible');
+    document.getElementById("punto_inicial").classList.remove('visible');
+    document.getElementById("punto_inicial_secante").classList.remove('visible');
+    document.getElementById("gx_input").classList.remove('visible');
+    document.getElementById("derivada1_input").classList.remove('visible');
+    document.getElementById("derivada2_input").classList.remove('visible');
+
+    document.getElementById("intervalo").classList.add('oculto');
+    document.getElementById("punto_inicial").classList.add('oculto');
+    document.getElementById("punto_inicial_secante").classList.add('oculto');
+    document.getElementById("gx_input").classList.add('oculto');
+    document.getElementById("derivada1_input").classList.add('oculto');
+    document.getElementById("derivada2_input").classList.add('oculto');
+  }
 }
 
 function actualizarFormularioIterativas(){
     const metodo = document.getElementById("metodo_iterativo").value;
 
-    document.getElementById("peso_w_input").style.display = "none";
+    document.getElementById("peso_w_input").classList.remove('visible');
+    document.getElementById("peso_w_input").classList.add('oculto');
 
     if (metodo === "sor") {
-        document.getElementById("peso_w_input").style.display = "block";
+      document.getElementById("peso_w_input").classList.remove('oculto');
+      document.getElementById("peso_w_input").classList.add('visible');
     } 
 
     else {
-        document.getElementById("peso_w_input").style.display = "none";
+      document.getElementById("peso_w_input").classList.remove('visible');
+      document.getElementById("peso_w_input").classList.add('oculto');
     }
 }
 
@@ -139,7 +193,7 @@ function generarMatriz() {
   
     // === VECTOR X0 ===
     const labelX0 = document.createElement("label");
-    labelX0.textContent = "Vector de valores iniciales X₀:";
+    labelX0.textContent = "Vector X₀:";
     labelX0.style.display = "block";
     labelX0.style.marginTop = "20px";
     contenedorX0.appendChild(labelX0);
