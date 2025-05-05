@@ -4,6 +4,7 @@ function showSection(id, linkElement) {
   // Oculta todas las secciones
   const sections = document.querySelectorAll(".section");
   sections.forEach(section => section.classList.remove("active"));
+  sections.forEach(section => section.classList.remove("iterativos"));
 
   // Muestra solo la sección correspondiente
   const selectedSection = document.getElementById(id);
@@ -22,18 +23,27 @@ function showSection(id, linkElement) {
 }
 
 function initPage() {
+  const activeSection = document.querySelector('.section.active');
+  
+  if (!activeSection) {
+    const defaultLink = document.querySelector('nav a');
+    showSection('enl', defaultLink);
+  } else {
+    const sectionId = activeSection.id;
+
+    // Buscar el enlace correspondiente que activa esta sección
+    const correspondingLink = document.querySelector(`.navegacion a[data-target="${sectionId}"]`);
+    
+    if (correspondingLink) {
+      correspondingLink.classList.add('active-link');
+    }
+  }
+}
+/*
+function initPage() {
   // Llama a showSection pasando el primer enlace como si se hubiera hecho click
   const defaultLink = document.querySelector('nav a');
   showSection('enl', defaultLink);
-}
-
-/*
-function showSection(id) {
-    const sections = document.querySelectorAll('.section');
-    sections.forEach(section => {
-      section.classList.remove('active');
-    });
-    document.getElementById(id).classList.add('active');
 }*/
 
 function actualizarFormularioENL() {

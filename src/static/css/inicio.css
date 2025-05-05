@@ -48,7 +48,7 @@ nav a.active-link {
 }
 
 .active {
-    display: flex;
+    display: block;
     height: 90%;
     padding-top: 50px;
 }
@@ -159,9 +159,11 @@ button:hover{
 }
 
 .resultados{
+    margin-top: 50px;
     display: flex;
     flex-direction: column;
-    width: 50%;
+    width: 100%;
+    align-items: center;
 }
 
 .tabla{
@@ -224,4 +226,17 @@ button:hover{
 
 .iterativos{
     display: block;
+}
+
+.resultado_interpolacion p{
+    color: #f5740c;
+}
+
+span{
+    color: #f5740c;
+}
+
+.link_symbo{
+    color: #f5740c;
+    text-decoration: none;
 }

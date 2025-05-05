@@ -7,6 +7,7 @@ del método elegido, se elige 0 o 1 en metodo respectivamente
 from django.contrib import messages
 import pandas as pd
 import numpy as np
+from .condiciones import radio_espectral
 
 def MatJacobiSeid_DC(A, b, x0, DC, niter, metodo, request):
   iteracion = 0
@@ -68,8 +69,10 @@ def MatJacobiSeid_DC(A, b, x0, DC, niter, metodo, request):
       messages.error(request, f"Jacobi matricial: Fracasó en {niter} iteraciones.")
     else:
       messages.error(request, f"Gauss-Seidel matricial: Fracasó en {niter} iteraciones.")
+    
+  ro = radio_espectral(T)
 
-  return df
+  return df, ro
 
 def MatJacobiSeid_CS1(A, b, x0, CS1, niter, metodo, request):
   iteracion = 0
@@ -132,7 +135,9 @@ def MatJacobiSeid_CS1(A, b, x0, CS1, niter, metodo, request):
     else:
       messages.error(request, f"Gauss-Seidel matricial: Fracasó en {niter} iteraciones.")
 
-  return df
+  ro = radio_espectral(T)
+
+  return df, ro
 
 def MatJacobiSeid_CS2(A, b, x0, CS2, niter, metodo, request):
   iteracion = 0
@@ -195,4 +200,6 @@ def MatJacobiSeid_CS2(A, b, x0, CS2, niter, metodo, request):
     else:
       messages.error(request, f"Gauss-Seidel matricial: Fracasó en {niter} iteraciones.")
 
-  return df
+  ro = radio_espectral(T)
+
+  return df, ro

@@ -10,9 +10,11 @@
 <body onload="initPage()">
     <div class="navegacion">
         <nav>
-            <a onclick="showSection('enl', this)">Solución de Ecuaciones no Lineales (ENL)</a>
-            <a onclick="showSection('reporte_enl', this)">Reporte ENL</a>
-            <a onclick="showSection('iterativos', this)">Métodos Iterativos</a>
+            <a data-target="enl" onclick="showSection('enl', this)">Solución de Ecuaciones no Lineales (ENL)</a>
+            <a data-target="reporte_enl" onclick="showSection('reporte_enl', this)">Reporte ENL</a>
+            <a data-target="iterativos" onclick="showSection('iterativos', this)">Métodos Iterativos</a>
+            <a data-target="interpolacion" onclick="showSection('interpolacion', this)">Interpolación</a>
+            <a data-target="reporte_interpolacion" onclick="showSection('reporte_interpolacion', this)">Reporte Interpolación</a>
         </nav>
     </div>
     
@@ -20,6 +22,40 @@
         <!-- Solución de Ecuaciones no Lineales (ENL) -->
 
         <div id="enl" class="section {% if formulario_activo == "enl" or not formulario_activo %}active{% endif %}">
+            <div class="Instrucciones">
+                <h1>Instrucciones</h1>
+                <ul>
+                    <li>
+                        Las expresiones matemáticas (como las funciones) se deben escribir usando la librería math de python. Un ejemplo de cómo debe
+                        escribirse una función es: math.exp(x)+3*math.cos(x), lo cual corresponde a la función e^x + 3cos(x).
+                    </li>
+                    <li>
+                        Se debe garantizar cumplir el teorema de existencia de raíces: la función debe ser continua en el intervalo [a, b] dado y 
+                        se debe garantizar también que f(a) * f(b) sea menor que 0.
+                    </li>
+                    <li>
+                        Para el método de punto fijo se recomienda garantizar tener una buena g(x), asegurándose que esta función cumpla con el criterio
+                        del dominio, el criterio del rango y que el absoluto de la derivada de g(x) sea menor que 1 para todo x en el intervalom [a, b].
+                    </li>
+                    <li>
+                        Para los métodos que requieren derivar la función, recomendamos usar Symbolab para hallar las derivadas. Puede encontras esta
+                        herramienta haciendo <a href="https://es.symbolab.com/solver/derivative-calculator" class="link_symbo" target="_blank">click aquí.</a>
+                    </li>
+                    <li>
+                        Para el método de Newton garantizar que la función sea derivable y que la derivada de la función no sea 0 ni tienda a 0 
+                        porque no funcionará el método.
+                    </li>
+                    <li>
+                        Para el método de la secante se requiere dos valores iniciales. Garantizar que f(Xn) - f(Xn-1), que corresponden a estas condiciones
+                        iniciales evaluadas en la función, sea diferente de 0.
+                    </li>
+                    <li>
+                        Para el método de raíces múltiples se debe garantizar que la función sea derivable (hasta la segunda derivada) y que
+                        (f'(Xn))^2 - f(Xn)f''(Xn) sea diferente de 0.
+                    </li>
+                </ul>
+            </div>
+
             <div class="contenedor">
                 <div class="inputs">
                     <form method="post">
@@ -117,7 +153,6 @@
                 </div>
             </div>
                 
-
             <div class="resultados">
                 <div class="grafica">
                     <h1>Gráfica</h1>
@@ -131,6 +166,40 @@
         <!-- Reporte ENL -->
 
         <div id="reporte_enl" class="section {% if formulario_activo == "reporte_enl" %}active{% endif %}">
+            <div class="Instrucciones">
+                <h1>Instrucciones</h1>
+                <ul>
+                    <li>
+                        Las expresiones matemáticas (como las funciones) se deben escribir usando la librería math de python. Un ejemplo de cómo debe
+                        escribirse una función es: math.exp(x)+3*math.cos(x), lo cual corresponde a la función e^x + 3cos(x).
+                    </li>
+                    <li>
+                        Se debe garantizar cumplir el teorema de existencia de raíces: la función debe ser continua en el intervalo [a, b] dado y 
+                        se debe garantizar también que f(a) * f(b) sea menor que 0.
+                    </li>
+                    <li>
+                        Para el método de punto fijo se recomienda garantizar tener una buena g(x), asegurándose que esta función cumpla con el criterio
+                        del dominio, el criterio del rango y que el absoluto de la derivada de g(x) sea menor que 1 para todo x en el intervalom [a, b].
+                    </li>
+                    <li>
+                        Para los métodos que requieren derivar la función, recomendamos usar Symbolab para hallar las derivadas. Puede encontras esta
+                        herramienta haciendo <a href="https://es.symbolab.com/solver/derivative-calculator" class="link_symbo" target="_blank">click aquí.</a>
+                    </li>
+                    <li>
+                        Para el método de Newton garantizar que la función sea derivable y que la derivada de la función no sea 0 ni tienda a 0 
+                        porque no funcionará el método.
+                    </li>
+                    <li>
+                        Para el método de la secante se requiere dos valores iniciales. Garantizar que f(Xn) - f(Xn-1), que corresponden a estas condiciones
+                        iniciales evaluadas en la función, sea diferente de 0.
+                    </li>
+                    <li>
+                        Para el método de raíces múltiples se debe garantizar que la función sea derivable (hasta la segunda derivada) y que
+                        (f'(Xn))^2 - f(Xn)f''(Xn) sea diferente de 0.
+                    </li>
+                </ul>
+            </div>
+
             <div class="contenedor">
                 <div class="inputs">
                     <form method="post">
@@ -215,7 +284,16 @@
 
         <!-- Métodos Iterativos -->
 
-        <div id="iterativos" class="iterativos section {% if formulario_activo == "iterativos" %}active{% endif %}">
+        <div id="iterativos" class="section {% if formulario_activo == "iterativos" %}active iterativos{% endif %}">
+            <div class="Instrucciones">
+                <h1>Instrucciones</h1>
+                <ul>
+                    <li>
+                        Garantizar que ningún elemento de la diagonal sea 0 o tienda a 0, ya que no se realiza pivoteo.
+                    </li>
+                </ul>
+            </div>
+
             <div class="contenedor">
                 <div class="inputs">
                     <form method="post" onsubmit="return validarFormulario()">
@@ -285,8 +363,168 @@
             <div class="resultados">
                 <h1>Comparación con Otros Métodos</h1>
                 <div class="tabla">
-                    <p>A continuación se presenta una tabla de comparación entre los tres métodos. Para el método SOR se hicieron iteraciones adicionales con pesos aleatorios.</p>
+                    <p><span>En esta sección se presenta una tabla de comparación entre los tres métodos. Para el método SOR se realizan iteraciones adicionales con pesos aleatorios cercanos a 1.</span></p>
                     {{ reporte_iterativos|safe }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Métodos Interpolación -->
+
+        <div id="interpolacion" class="section {% if formulario_activo == "interpolacion" %}active{% endif %}">
+            <div class="Instrucciones">
+                <h1>Instrucciones</h1>
+                <ul>
+                    <li>
+                        Se debe garantizar que haya el mismo número de valores de x que de y, ya que estos representan los pares ordenados de puntos (x, y).
+                    </li>
+                    <li>
+                        Los valores, tanto de x como de y, se deben escribir separados por comas y en orden ascendente. El orden en el que se escriban los 
+                        valores de x debe corresponder al orden con el que se escriben los valores de y y viceversa, es decir, garantizar que el primner valor
+                        de x que sea la pareja ordenada del primer valor de y que se escribe (y así con el resto de valores).
+                    </li>
+                    <li>
+                        Se debe garantizar la unicidad de valores de x, es decir, un valor de x NO puede estar repetido. Esta regla no aplica para los valores
+                        de y.
+                    </li>
+                    <li>
+                        El usuario debe suministrar un valor adicional de x (con su correspondiente imagen y) para poder realizar el cálculo del error.
+                    </li>
+                </ul>
+            </div>
+
+            <div class="contenedor">
+                <div class="inputs">
+                    <form method="post">
+                        {% csrf_token %}
+        
+                        <input type="hidden" name="formulario" value="interpolacion">
+        
+                        <label for="valores_x">Valores de x:</label>
+                        <input type="text" id="valores_x" name="valores_x" required>
+        
+                        <label for="valores_y">Valores de y:</label>
+                        <input type="text" id="valores_y" name="valores_y" required>
+        
+                        <label for="metodo_int">Elija un método:</label>
+                        <select id="metodo_int" name="metodo_int" required>
+                            <option value="">-- Seleccione --</option>
+                            <option value="Vandermonde">Vandermonde</option>
+                            <option value="Newton Interpolante">Newton Interpolante</option>
+                            <option value="Lagrange">Lagrange</option>
+                            <option value="Spline Lineal">Spline Lineal</option>
+                            <option value="Spline Cúbico">Spline Cúbico</option>
+                        </select>
+        
+                        <label for="x_real">Valor adicional de x:</label>
+                        <input type="text" id="x_real" name="x_real" required>
+
+                        <label for="y_real">Valor adicional de y:</label>
+                        <input type="text" id="y_real" name="y_real" required>
+        
+                        <button type="submit">Interpolar</button>
+                    </form>
+                    
+                    {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <li class="{{ message.tags }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+
+                <div class="tabla">
+                    <h1>Resultados</h1>
+                    <div class="resultado_interpolacion">
+                        <p>El polinomio final es:</p>
+                        {{ polinomio_int|safe }}
+
+                        <p>El error convencional calculado con el punto adicional es:</p>
+                        {{ error_int|safe }}
+                    </div>
+                </div>
+            </div>
+                
+            <div class="resultados">
+                <div class="grafica">
+                    <h1>Gráfica</h1>
+                    <div>
+                        {{ grafica_int|safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reporte Interpolación -->
+
+        <div id="reporte_interpolacion" class="section {% if formulario_activo == "reporte_interpolacion" %}active{% endif %}">
+            <div class="Instrucciones">
+                <h1>Instrucciones</h1>
+                <ul>
+                    <li>
+                        Se debe garantizar que haya el mismo número de valores de x que de y, ya que estos representan los pares ordenados de puntos (x, y).
+                    </li>
+                    <li>
+                        Los valores, tanto de x como de y, se deben escribir separados por comas y en orden ascendente. El orden en el que se escriban los 
+                        valores de x debe corresponder al orden con el que se escriben los valores de y y viceversa, es decir, garantizar que el primner valor
+                        de x que sea la pareja ordenada del primer valor de y que se escribe (y así con el resto de valores).
+                    </li>
+                    <li>
+                        Se debe garantizar la unicidad de valores de x, es decir, un valor de x NO puede estar repetido. Esta regla no aplica para los valores
+                        de y.
+                    </li>
+                    <li>
+                        El usuario debe suministrar un valor adicional de x (con su correspondiente imagen y) para poder realizar el cálculo del error.
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="contenedor">
+                <div class="inputs">
+                    <form method="post">
+                        {% csrf_token %}
+        
+                        <input type="hidden" name="formulario" value="reporte_interpolacion">
+        
+                        <label for="valores_x">Valores de x:</label>
+                        <input type="text" id="valores_x" name="valores_x" required>
+        
+                        <label for="valores_y">Valores de y:</label>
+                        <input type="text" id="valores_y" name="valores_y" required>
+        
+                        <label for="x_real">Valor adicional de x:</label>
+                        <input type="text" id="x_real" name="x_real" required>
+
+                        <label for="y_real">Valor adicional de y:</label>
+                        <input type="text" id="y_real" name="y_real" required>
+        
+                        <button type="submit">Generar Reporte</button>
+                    </form>
+                    
+                    {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <li class="{{ message.tags }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+
+                <div class="tabla">
+                    <h1>Resultados</h1>
+                    <div>
+                        {{ reporte_int|safe }}
+                    </div>
+                </div>
+            </div>
+                
+            <div class="resultados">
+                <div class="grafica">
+                    <h1>Gráfica</h1>
+                    <div>
+                        {{ grafica_reporte_int|safe }}
+                    </div>
                 </div>
             </div>
         </div>

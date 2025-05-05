@@ -3,6 +3,7 @@ import re
 from sympy.calculus.util import continuous_domain
 from sympy import Interval
 import math
+import numpy as np
 
 
 # Diccionario de funciones que quieres convertir
@@ -55,3 +56,8 @@ def verificar_existencia_raiz(fx, a, b):
         return True
     else:
         return False
+    
+def radio_espectral(T):
+  eigenvalues = abs(np.linalg.eigvals(T))
+
+  return max(eigenvalues)

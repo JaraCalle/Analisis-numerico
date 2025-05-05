@@ -6,6 +6,7 @@ mediante el método Gauss Seidel (relajado), depende del valor de w entre (0,2)
 from django.contrib import messages
 import pandas as pd
 import numpy as np
+from .condiciones import radio_espectral
 
 def SOR_DC(A, b, x0, DC, niter, w, request):
   iteracion = 0
@@ -57,7 +58,9 @@ def SOR_DC(A, b, x0, DC, niter, w, request):
   else:
     messages.error(request, f"SOR: Fracasó en {niter} iteraciones.")
 
-  return df
+  ro = radio_espectral(T)
+
+  return df, ro
 
 def SOR_CS1(A, b, x0, CS1, niter, w, request):
   iteracion = 0
@@ -109,7 +112,9 @@ def SOR_CS1(A, b, x0, CS1, niter, w, request):
   else:
     messages.error(request, f"SOR: Fracasó en {niter} iteraciones.")
 
-  return df
+  ro = radio_espectral(T)
+
+  return df, ro
 
 def SOR_CS2(A, b, x0, CS2, niter, w, request):
   iteracion = 0
@@ -161,4 +166,6 @@ def SOR_CS2(A, b, x0, CS2, niter, w, request):
   else:
     messages.error(request, f"SOR: Fracasó en {niter} iteraciones.")
 
-  return df
+  ro = radio_espectral(T)
+
+  return df, ro

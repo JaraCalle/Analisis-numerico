@@ -10,17 +10,28 @@ from .secante import secante_CS, secante_DC
 from .raices_multiples import newton_m2_CS, newton_m2_DC
 from .jacobi_seidel import MatJacobiSeid_DC, MatJacobiSeid_CS1, MatJacobiSeid_CS2
 from .sor import SOR_DC, SOR_CS1, SOR_CS2
+from .vandermonde import vandermonde
+from .newton_int import newtonint
+from .lagrange import lagrange
+from .spline import spline
 
 def inicio(request):
     df_enl = None
     grafico_enl = None
-    reporte = None
     df_reporte_enl = None
     reporte_enl = None
     df_iterativos = None
     reporte_iterativos = None
+    polinomio_int = None
+    error_int = None
+    grafica_int = None
+    reporte_int = None
+    grafica_reporte_int = None
+
     diccionario = {'tabla_enl': df_enl, 'grafico_enl': grafico_enl, 'tabla_reporte_enl': df_reporte_enl, 'reporte_enl': reporte_enl,
-                    'tabla_iterativos': df_iterativos, 'reporte_iterativos': reporte_iterativos, 'formulario_activo': "enl"}
+                    'tabla_iterativos': df_iterativos, 'reporte_iterativos': reporte_iterativos, 'polinomio_int': polinomio_int,
+                    'error_int': error_int, 'grafica_int': grafica_int, 'reporte_int': reporte_int, 'grafica_reporte_int': grafica_reporte_int,
+                    'formulario_activo': "enl"}
     
 
     if request.method == "POST":
@@ -28,21 +39,38 @@ def inicio(request):
 
         if formulario == "enl":
             df_enl, grafico_enl = enl(request)
-            diccionario = {'tabla_enl': df_enl, 'grafico_enl': grafico_enl, 'tabla_reporte_enl': df_reporte_enl, 'reporte_enl': reporte_enl,
-                           'tabla_iterativos': df_iterativos, 'reporte_iterativos': reporte_iterativos, 'formulario_activo': formulario}
+            diccionario["tabla_enl"] = df_enl
+            diccionario["grafico_enl"] = grafico_enl
+            diccionario["formulario_activo"] = "enl"
             return render(request, 'inicio.html', diccionario)
 
         elif formulario == "reporte_enl":
             df_reporte_enl, reporte_enl = crear_reporte_enl(request)
-            diccionario = {'tabla_enl': df_enl, 'grafico_enl': grafico_enl, 'tabla_reporte_enl': df_reporte_enl, 'reporte_enl': reporte_enl,
-                           'tabla_iterativos': df_iterativos, 'reporte_iterativos': reporte_iterativos, 'formulario_activo': formulario}
+            diccionario["tabla_reporte_enl"] = df_reporte_enl
+            diccionario["reporte_enl"] = reporte_enl
+            diccionario["formulario_activo"] = "reporte_enl"
             return render(request, 'inicio.html', diccionario)
         
         elif formulario == "iterativos":
             df_iterativos, reporte_iterativos = iterativos(request)
-            diccionario = {'tabla_enl': df_enl, 'grafico_enl': grafico_enl, 'tabla_reporte_enl': df_reporte_enl, 'reporte_enl': reporte_enl,
-                           'tabla_iterativos': df_iterativos, 'reporte_iterativos': reporte_iterativos, 'formulario_activo': formulario}
+            diccionario["tabla_iterativos"] = df_iterativos
+            diccionario["reporte_iterativos"] = reporte_iterativos
+            diccionario["formulario_activo"] = "iterativos"
             return render(request, 'inicio.html', diccionario)
+        
+        elif formulario == "interpolacion":
+            polinomio_int, error_int, grafica_int = interpolacion(request)
+            diccionario["polinomio_int"] = polinomio_int
+            diccionario["error_int"] = error_int
+            diccionario["grafica_int"] = grafica_int
+            diccionario["formulario_activo"] = "interpolacion"
+            return render(request, 'inicio.html', diccionario)
+        
+        elif formulario == "reporte_interpolacion":
+            reporte, grafica_reporte_int = reporte_interpolacion(request)
+            diccionario["reporte_int"] = reporte
+            diccionario["grafica_reporte_int"] = grafica_reporte_int
+            diccionario["formulario_activo"] = "reporte_interpolacion"
     
     return render(request, 'inicio.html', diccionario)
 
@@ -233,44 +261,76 @@ def iterativos(request):
 
     try:
         if tipo_error == 'DC':
-            df_jacobi = MatJacobiSeid_DC(A, b, x0, tolerancia, iteraciones, 0, request)
-            df_seidel = MatJacobiSeid_DC(A, b, x0, tolerancia, iteraciones, 1, request)
-            df_sor2 = SOR_DC(A, b, x0, tolerancia, iteraciones, w2, request)
-            df_sor3 = SOR_DC(A, b, x0, tolerancia, iteraciones, w3, request)
+            df_jacobi, ro_jacobi = MatJacobiSeid_DC(A, b, x0, tolerancia, iteraciones, 0, request)
+            df_seidel, ro_seidel = MatJacobiSeid_DC(A, b, x0, tolerancia, iteraciones, 1, request)
+            df_sor2, ro_sor2 = SOR_DC(A, b, x0, tolerancia, iteraciones, w2, request)
+            df_sor3, ro_sor3 = SOR_DC(A, b, x0, tolerancia, iteraciones, w3, request)
             if w:
                 w = float(w)
             else:
                 w = w1
-            df_sor1 = SOR_DC(A, b, x0, tolerancia, iteraciones, w, request)
+            df_sor1, ro_sor1 = SOR_DC(A, b, x0, tolerancia, iteraciones, w, request)
         
         elif tipo_error == 'CS1':
-            df_jacobi = MatJacobiSeid_CS1(A, b, x0, tolerancia, iteraciones, 0, request)
-            df_seidel = MatJacobiSeid_CS1(A, b, x0, tolerancia, iteraciones, 1, request)
-            df_sor2 = SOR_CS1(A, b, x0, tolerancia, iteraciones, w2, request)
-            df_sor3 = SOR_CS1(A, b, x0, tolerancia, iteraciones, w3, request)
+            df_jacobi, ro_jacobi = MatJacobiSeid_CS1(A, b, x0, tolerancia, iteraciones, 0, request)
+            df_seidel, ro_seidel = MatJacobiSeid_CS1(A, b, x0, tolerancia, iteraciones, 1, request)
+            df_sor2, ro_sor2 = SOR_CS1(A, b, x0, tolerancia, iteraciones, w2, request)
+            df_sor3, ro_sor3 = SOR_CS1(A, b, x0, tolerancia, iteraciones, w3, request)
             if w:
                 w = float(w)
             else:
                 w = w1
-            df_sor1 = SOR_CS1(A, b, x0, tolerancia, iteraciones, w, request)
+            df_sor1, ro_sor1 = SOR_CS1(A, b, x0, tolerancia, iteraciones, w, request)
         
         elif tipo_error == 'CS2':
-            df_jacobi = MatJacobiSeid_CS2(A, b, x0, tolerancia, iteraciones, 0, request)
-            df_seidel = MatJacobiSeid_CS2(A, b, x0, tolerancia, iteraciones, 1, request)
-            df_sor2 = SOR_CS2(A, b, x0, tolerancia, iteraciones, w2, request)
-            df_sor3 = SOR_CS2(A, b, x0, tolerancia, iteraciones, w3, request)
+            df_jacobi, ro_jacobi = MatJacobiSeid_CS2(A, b, x0, tolerancia, iteraciones, 0, request)
+            df_seidel, ro_seidel = MatJacobiSeid_CS2(A, b, x0, tolerancia, iteraciones, 1, request)
+            df_sor2, ro_sor2 = SOR_CS2(A, b, x0, tolerancia, iteraciones, w2, request)
+            df_sor3, ro_sor3 = SOR_CS2(A, b, x0, tolerancia, iteraciones, w3, request)
             if w:
                 w = float(w)
             else:
                 w = w1
-            df_sor1 = SOR_CS2(A, b, x0, tolerancia, iteraciones, w, request)
+            df_sor1, ro_sor1 = SOR_CS2(A, b, x0, tolerancia, iteraciones, w, request)
 
         if metodo == "jacobi":
-            solucion = df_jacobi.to_html(classes='table table-striped', index=False)
+            if ro_jacobi < 1:
+                solucion = f"""
+                <p>El radio espectral del método de Jacobi es <span>{ro_jacobi}</span>. Como el radio espectral es menor a 1, el método
+                puede converger (cumple el primer criterio del teorema de convergencia).</p><br>
+                """
+            else:
+                solucion = f"""
+                <p>El radio espectral del método de Jacobi es <span>{ro_jacobi}</span>. Como el radio espectral es mayor a 1, el método
+                puede que no llegue a converger (no cumple el primer criterio del teorema de convergencia).</p><br>
+                """
+            solucion += df_jacobi.to_html(classes='table table-striped', index=False)
+
         elif metodo == "seidel":
-            solucion = df_seidel.to_html(classes='table table-striped', index=False)
+            if ro_seidel < 1:
+                solucion = f"""
+                <p>El radio espectral del método de Gauss-Seidel es <span>{ro_seidel}</span>. Como el radio espectral es menor a 1, el método
+                puede converger (cumple el primer criterio del teorema de convergencia).</p><br>
+                """
+            else:
+                solucion = f"""
+                <p>El radio espectral del método de Gauss-Seidel es <span>{ro_seidel}</span>. Como el radio espectral es mayor a 1, el método
+                puede que no llegue a converger (no cumple el primer criterio del teorema de convergencia).</p><br>
+                """
+            solucion += df_seidel.to_html(classes='table table-striped', index=False)
+
         elif metodo == "sor":
-            solucion = df_sor1.to_html(classes='table table-striped', index=False)
+            if ro_sor1 < 1:
+                solucion = f"""
+                <p>El radio espectral del método de SOR es <span>{ro_sor1}</span>. Como el radio espectral es menor a 1, el método
+                puede converger (cumple el primer criterio del teorema de convergencia).</p><br>
+                """
+            else:
+                solucion = f"""
+                <p>El radio espectral del método de SOR es <span>{ro_sor1}</span>. Como el radio espectral es mayor a 1, el método
+                puede que no llegue a converger (no cumple el primer criterio del teorema de convergencia).</p><br>
+                """
+            solucion += df_sor1.to_html(classes='table table-striped', index=False)
 
         tabla = comparar_iterativos(df_jacobi, df_seidel, df_sor1, df_sor2, df_sor3, size)
 
@@ -331,3 +391,125 @@ def comparar_iterativos(df_jacobi, df_seidel, df_sor1, df_sor2, df_sor3, n):
     tabla = tabla.to_html(classes='table table-striped', index=False)
 
     return tabla
+
+def interpolacion(request):
+    valores_x = request.POST.get("valores_x")
+    valores_y = request.POST.get("valores_y")
+    metodo = request.POST.get("metodo_int")
+    x_real = request.POST.get("x_real")
+    y_real = request.POST.get("y_real")
+
+    try:
+        valores_x = [float(num.strip()) for num in valores_x.split(',') if num.strip() != '']
+        valores_y = [float(num.strip()) for num in valores_y.split(',') if num.strip() != '']
+    except ValueError:
+        messages.error(request, "Por favor ingresar solo números separados por comas en los campos de valores de x y valores de y.")
+        return None, None, None
+    
+    try:
+        x_real = float(x_real)
+        y_real = float(y_real)
+    except:
+        messages.error(request, "Por favor ingresar solo números en los campos de valor adicional de x y valor adicional de y.")
+        return None, None, None
+    
+    try:
+        if metodo == "Vandermonde":
+            polinomio_int, error_int, grafica_int = vandermonde(valores_x, valores_y, x_real, y_real)
+
+        elif metodo == "Newton Interpolante":
+            polinomio_int, error_int, grafica_int = newtonint(valores_x, valores_y, x_real, y_real)
+
+        elif metodo == "Lagrange":
+            polinomio_int, error_int, grafica_int = lagrange(valores_x, valores_y, x_real, y_real)
+
+        elif metodo == "Spline Lineal":
+            polinomio_int, error_int, grafica_int = spline(valores_x, valores_y, 1, x_real, y_real)
+
+        elif metodo == "Spline Cúbico":
+            polinomio_int, error_int, grafica_int = spline(valores_x, valores_y, 3, x_real, y_real)
+        
+        return polinomio_int, error_int, grafica_int
+
+    except Exception as e:
+        messages.error(request, f"Ocurrió un error: {str(e)}")
+        return None, None, None
+
+def reporte_interpolacion(request):
+    valores_x = request.POST.get("valores_x")
+    valores_y = request.POST.get("valores_y")
+    x_real = request.POST.get("x_real")
+    y_real = request.POST.get("y_real")
+
+    try:
+        valores_x = [float(num.strip()) for num in valores_x.split(',') if num.strip() != '']
+        valores_y = [float(num.strip()) for num in valores_y.split(',') if num.strip() != '']
+    except ValueError:
+        messages.error(request, "Por favor ingresar solo números separados por comas en los campos de valores de x y valores de y.")
+        return None, None, None
+    
+    try:
+        x_real = float(x_real)
+        y_real = float(y_real)
+    except:
+        messages.error(request, "Por favor ingresar solo números en los campos de valor adicional de x y valor adicional de y.")
+        return None, None, None
+
+    try:
+        polinomio_vander, error_vander, grafica_vander = vandermonde(valores_x, valores_y, x_real, y_real)
+        polinomio_newton, error_newton, grafica_newton = newtonint(valores_x, valores_y, x_real, y_real)
+        polinomio_lagrange, error_lagrange, grafica_lagrange = lagrange(valores_x, valores_y, x_real, y_real)
+        polinomio_spline1, error_spline1, grafica_spline1 = spline(valores_x, valores_y, 1, x_real, y_real)
+        polinomio_spline3, error_spline3, grafica_spline3 = spline(valores_x, valores_y, 3, x_real, y_real)
+
+        error_minimo = min(error_vander, error_newton, error_lagrange, error_spline1, error_spline3)
+
+        if error_minimo == error_vander:
+            mejor_metodo = "Vandermonde"
+            error_final = error_vander
+            polinomio_final = polinomio_vander
+            grafica_final = grafica_vander
+
+        elif error_minimo == error_newton:
+            mejor_metodo = "Newton Interpolante"
+            error_final = error_newton
+            polinomio_final = polinomio_newton
+            grafica_final = grafica_newton
+
+        elif error_minimo == error_lagrange:
+            mejor_metodo = "Lagrange"
+            error_final = error_lagrange
+            polinomio_final = polinomio_lagrange
+            grafica_final = grafica_lagrange
+
+        elif error_minimo == error_spline1:
+            mejor_metodo = "Spline Lineal"
+            error_final = error_spline1
+            polinomio_final = polinomio_spline1
+            grafica_final = grafica_spline1
+
+        elif error_minimo == error_spline3:
+            mejor_metodo = "Spline Cúbico"
+            error_final = error_spline3
+            polinomio_final = polinomio_spline3
+            grafica_final = grafica_spline3
+
+        reporte = f"""
+        <p>El mejor método es el método de <span>{mejor_metodo}</span>, el cual obtuvo un error de <span>{error_final}.</span></p><br>
+        <p>El polinomio solución con este método es:</p>
+        <span>{polinomio_final}</span><br>
+        <p>Los demás métodos obtuvieron los siguientes errores:</p>
+        <ul>
+            <li><span>Vandermonde:</span> {error_vander}</li>
+            <li><span>Newton Interpolante:</span> {error_newton}</li>
+            <li><span>Lagrange:</span> {error_lagrange}</li>
+            <li><span>Spline Lineal:</span> {error_spline1}</li>
+            <li><span>Spline Cúbico:</span> {error_spline3}</li>
+        </ul>
+        """
+
+        return reporte, grafica_final
+
+    except Exception as e:
+        messages.error(request, f"Ocurrió un error: {str(e)}")
+        return None, None
