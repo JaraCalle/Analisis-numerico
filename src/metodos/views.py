@@ -479,6 +479,9 @@ def reporte_interpolacion(request):
         polinomio_spline1, error_spline1, grafica_spline1 = spline(valores_x, valores_y, 1, x_real, y_real)
         polinomio_spline3, error_spline3, grafica_spline3 = spline(valores_x, valores_y, 3, x_real, y_real)
 
+        error_spline1 = 100 if error_spline1 == None else error_spline1
+        error_spline3 = 100 if error_spline3 == None else error_spline3
+        
         error_minimo = min(error_vander, error_newton, error_lagrange, error_spline1, error_spline3)
 
         if error_minimo == error_vander:
@@ -520,8 +523,8 @@ def reporte_interpolacion(request):
             <li><span>Vandermonde:</span> {error_vander}</li>
             <li><span>Newton Interpolante:</span> {error_newton}</li>
             <li><span>Lagrange:</span> {error_lagrange}</li>
-            <li><span>Spline Lineal:</span> {error_spline1}</li>
-            <li><span>Spline Cúbico:</span> {error_spline3}</li>
+            <li><span>Spline Lineal:</span> {error_spline1 if error_spline1 != 100 else "No definido en el punto"}</li>
+            <li><span>Spline Cúbico:</span> {error_spline3 if error_spline3 != 100 else "No definido en el punto"}</li>
         </ul>
         """
 
