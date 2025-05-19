@@ -382,15 +382,32 @@ def comparar_iterativos(df_jacobi, df_seidel, df_sor1, df_sor2, df_sor3, n):
     columnas.append("Error Final")
 
     tabla = pd.DataFrame(columns=columnas)
+    
+    mejor_metodo = None
+    menor_iter = float('inf')
 
     for nombre_metodo, df_metodo in metodos.items():
         ultima_fila = df_metodo.iloc[-1]
+        iteraciones = ultima_fila.iloc[0] 
+
+        if iteraciones < menor_iter:
+            menor_iter = iteraciones
+            mejor_metodo = nombre_metodo
+            
         nueva_fila = [nombre_metodo] + ultima_fila.tolist()
         tabla.loc[len(tabla)] = nueva_fila
     
-    tabla = tabla.to_html(classes='table table-striped', index=False)
-
-    return tabla
+    # Convertir tabla a HTML
+    tabla_html = tabla.to_html(classes='table table-striped', index=False)
+    
+    # Agregar mensaje sobre el mejor método
+    tabla_html += f'''
+    <div class="alert alert-success mt-3">
+        <strong>Mejor método:</strong> {mejor_metodo} con {menor_iter} iteraciones.
+    </div>
+    '''
+    
+    return tabla_html
 
 def interpolacion(request):
     valores_x = request.POST.get("valores_x")

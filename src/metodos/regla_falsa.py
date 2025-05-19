@@ -11,12 +11,14 @@ def regla_falsa_DC(a, b, dc, niter, fx, request):
 
   if not continuidad:
     messages.error(request, "Regla Falsa: La función no es continua en el intervalo.")
-    return None, None
+    df = pd.DataFrame(columns=["iter", "Xm", "f(Xm)", "E"])
+    return df, graficar(fx)
 
   if not raiz:
-    messages.error(request, "Regla Falsa: La función no tiene raíces en el intervalo.")
-    return None, None
-     
+    messages.error(request, "Regla falsa: No se encontraron raíces con el método seleccionado. Verifique con la gráfica.")
+    df = pd.DataFrame(columns=["iter", "Xm", "f(Xm)", "E"])
+    return df, graficar(fx)
+  
   i = 1
   tol = "0.5E-"
   tol += dc
@@ -60,12 +62,14 @@ def regla_falsa_CS(a, b, cs, niter, fx, request):
   raiz = verificar_existencia_raiz(fx, a, b)
 
   if not continuidad:
-    messages.error(request, "La función no es continua en el intervalo.")
-    return None, None
+    messages.error(request, "Regla Falsa: La función no es continua en el intervalo.")
+    df = pd.DataFrame(columns=["iter", "Xm", "f(Xm)", "E"])
+    return df, graficar(fx)
 
   if not raiz:
-    messages.error(request, "La función no tiene raíces en el intervalo.")
-    return None, None
+    messages.error(request, "Regla falsa: No se encontraron raíces con el método seleccionado. Verifique con la gráfica.")
+    df = pd.DataFrame(columns=["iter", "Xm", "f(Xm)", "E"])
+    return df, graficar(fx)
 
   i = 1
   tol = "5E-"
