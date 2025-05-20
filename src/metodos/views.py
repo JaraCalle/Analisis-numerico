@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib import messages
 import pandas as pd
 import random
+from .graficas import graficar
 from .biseccion import biseccion_CS, biseccion_DC
 from .regla_falsa import regla_falsa_CS, regla_falsa_DC
 from .punto_fijo import punto_fijo_CS, punto_fijo_DC
@@ -118,7 +119,12 @@ def enl(request):
             x1 = float(request.POST.get("punto_inicial_2"))
             df, grafico = funcion_metodo(x0, x1, tolerancia, iteraciones, fx, request)
         
-        df = df.to_html(classes='table table-striped', index=False)
+        if df:
+            df = df.to_html(classes='table table-striped', index=False)
+
+        if grafico is None:
+            grafico = graficar(fx)
+        
         return df, grafico
 
     except Exception as e:

@@ -11,13 +11,11 @@ def biseccion_DC(Xi, Xs, DC, Niter, Fun, request):
 
 	if not continuidad:
 		messages.error(request, "Bisección: La función no es continua en el intervalo.")
-		df = pd.DataFrame(columns=["iter", "Xm", "f(Xm)", "ℇ"])
-		return df, graficar(Fun)
+		return None, None
 	
 	if not raiz:
 		messages.error(request, "Bisección: No se encontraron raíces con el método seleccionado. Verifique con la gráfica.")
-		df = pd.DataFrame(columns=["iter", "Xm", "f(Xm)", "ℇ"])
-		return df, graficar(Fun)
+		return None, None
 
 	Tol = float(f'0.5E-{DC}')
 	fm=[]
@@ -95,13 +93,11 @@ def biseccion_CS(Xi, Xs, CS, Niter, Fun, request):
 
 	if not continuidad:
 		messages.error(request, "Bisección: La función no es continua en el intervalo.")
-		df = pd.DataFrame(columns=["iter", "Xm", "f(Xm)", "ℇ"])
-		return df, graficar(Fun)
+		return None, None
 	
 	if not raiz:
 		messages.error(request, "Bisección: No se encontraron raíces con el método seleccionado. Verifique con la gráfica.")
-		df = pd.DataFrame(columns=["iter", "Xm", "f(Xm)", "ℇ"])
-		return df, graficar(Fun)
+		return None, None
 
 	Tol = float(f'5E-{CS}')
 	fm=[]
