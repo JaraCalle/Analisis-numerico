@@ -24,7 +24,7 @@
         <div id="enl" class="section {% if formulario_activo == "enl" or not formulario_activo %}active{% endif %}">
             <div class="Instrucciones">
                 <h1>Instrucciones</h1>
-                <ul>
+                <ol>
                     <li>
                         Las expresiones matemáticas (como las funciones) se deben escribir usando la librería math de python. Algunos ejemplos comunes de sintaxis son: 
                         <ul>
@@ -78,8 +78,19 @@
                         Para el método de raíces múltiples se debe garantizar que la función sea derivable (hasta la segunda derivada) y que
                         (f'(Xn))^2 - f(Xn)f''(Xn) sea diferente de 0.
                     </li>
+                </ol>
+            </div>
+
+            {% if messages %}
+            <div class="messages">
+                <ul class="message-box">
+                    <h3>Notificaciones:</h3>
+                    {% for message in messages %}
+                    <li class="{{ message.tags }}">{{ message }}</li>
+                    {% endfor %}
                 </ul>
             </div>
+            {% endif %}
 
             <div class="contenedor">
                 <div class="inputs">
@@ -161,13 +172,6 @@
                         <button type="submit">Calcular Raíces</button>
                     </form>
                     
-                    {% if messages %}
-                    <ul class="messages">
-                        {% for message in messages %}
-                        <li class="{{ message.tags }}">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-                    {% endif %}
                 </div>
 
                 <div class="tabla">
@@ -193,7 +197,7 @@
         <div id="reporte_enl" class="section {% if formulario_activo == "reporte_enl" %}active{% endif %}">
             <div class="Instrucciones">
                 <h1>Instrucciones</h1>
-                <ul>
+                <ol>
                     <li>
                         Las expresiones matemáticas (como las funciones) se deben escribir usando la librería math de python. Algunos ejemplos comunes de sintaxis son: 
                         <ul>
@@ -244,8 +248,19 @@
                         Para el método de raíces múltiples se debe garantizar que la función sea derivable (hasta la segunda derivada) y que
                         (f'(Xn))^2 - f(Xn)f''(Xn) sea diferente de 0.
                     </li>
+                </ol>
+            </div>
+
+            {% if messages %}
+            <div class="messages">
+                <ul class="message-box">
+                    <h3>Notificaciones:</h3>
+                    {% for message in messages %}
+                    <li class="{{ message.tags }}">{{ message }}</li>
+                    {% endfor %}
                 </ul>
             </div>
+            {% endif %}
 
             <div class="contenedor">
                 <div class="inputs">
@@ -303,14 +318,6 @@
         
                         <button type="submit">Generar Reporte</button>
                     </form>
-        
-                        {% if messages %}
-                        <ul class="messages">
-                            {% for message in messages %}
-                            <li class="{{ message.tags }}">{{ message }}</li>
-                            {% endfor %}
-                        </ul>
-                        {% endif %}
                 </div>
 
                 <div class="tabla">
@@ -334,12 +341,23 @@
         <div id="iterativos" class="section {% if formulario_activo == "iterativos" %}active iterativos{% endif %}">
             <div class="Instrucciones">
                 <h1>Instrucciones</h1>
-                <ul>
+                <ol>
                     <li>
                         Garantizar que ningún elemento de la diagonal sea 0 o tienda a 0, ya que no se realiza pivoteo.
                     </li>
+                </ol>
+            </div>
+
+            {% if messages %}
+            <div class="messages">
+                <ul class="message-box">
+                    <h3>Notificaciones:</h3>
+                    {% for message in messages %}
+                    <li class="{{ message.tags }}">{{ message }}</li>
+                    {% endfor %}
                 </ul>
             </div>
+            {% endif %}
 
             <div class="contenedor">
                 <div class="inputs">
@@ -389,14 +407,6 @@
         
                         <button type="submit">Calcular Solución</button>
                     </form>
-        
-                        {% if messages %}
-                        <ul class="messages">
-                            {% for message in messages %}
-                            <li class="{{ message.tags }}">{{ message }}</li>
-                            {% endfor %}
-                        </ul>
-                        {% endif %}
                 </div>
 
                 <div class="tabla">
@@ -421,7 +431,7 @@
         <div id="interpolacion" class="section {% if formulario_activo == "interpolacion" %}active{% endif %}">
             <div class="Instrucciones">
                 <h1>Instrucciones</h1>
-                <ul>
+                <ol>
                     <li>
                         Se debe garantizar que haya el mismo número de valores de x que de y, ya que estos representan los pares ordenados de puntos (x, y).
                     </li>
@@ -437,8 +447,19 @@
                         Este nuevo punto (x, y) debe estar dentro del dominio de los datos, ya que se realiza el error del cálculo convencional y no el
                         error de truncamiento.
                     </li>
+                </ol>
+            </div>
+
+            {% if messages %}
+            <div class="messages">
+                <ul class="message-box">
+                    <h3>Notificaciones:</h3>
+                    {% for message in messages %}
+                    <li class="{{ message.tags }}">{{ message }}</li>
+                    {% endfor %}
                 </ul>
             </div>
+            {% endif %}
 
             <div class="contenedor">
                 <div class="inputs">
@@ -471,14 +492,6 @@
         
                         <button type="submit">Interpolar</button>
                     </form>
-                    
-                    {% if messages %}
-                    <ul class="messages">
-                        {% for message in messages %}
-                        <li class="{{ message.tags }}">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-                    {% endif %}
                 </div>
 
                 <div class="tabla">
@@ -508,7 +521,7 @@
         <div id="reporte_interpolacion" class="section {% if formulario_activo == "reporte_interpolacion" %}active{% endif %}">
             <div class="Instrucciones">
                 <h1>Instrucciones</h1>
-                <ul>
+                <ol>
                     <li>
                         Se debe garantizar que haya el mismo número de valores de x que de y, ya que estos representan los pares ordenados de puntos (x, y).
                     </li>
@@ -524,8 +537,19 @@
                     <li>
                         El usuario debe suministrar un valor adicional de x (con su correspondiente imagen y) para poder realizar el cálculo del error.
                     </li>
+                </ol>
+            </div>
+
+            {% if messages %}
+            <div class="messages">
+                <ul class="message-box">
+                    <h3>Notificaciones:</h3>
+                    {% for message in messages %}
+                    <li class="{{ message.tags }}">{{ message }}</li>
+                    {% endfor %}
                 </ul>
             </div>
+            {% endif %}
             
             <div class="contenedor">
                 <div class="inputs">
@@ -548,14 +572,6 @@
         
                         <button type="submit">Generar Reporte</button>
                     </form>
-                    
-                    {% if messages %}
-                    <ul class="messages">
-                        {% for message in messages %}
-                        <li class="{{ message.tags }}">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-                    {% endif %}
                 </div>
 
                 <div class="tabla">

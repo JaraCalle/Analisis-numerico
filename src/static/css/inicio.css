@@ -53,6 +53,32 @@ nav a.active-link {
     padding-top: 50px;
 }
 
+.messages{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.message-box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 30%;
+    background-color: #f5740c;
+    color: #D8E5EA;
+    border-left: 15px solid #a9530c;
+    min-height: 40px;
+}
+
+.message-box h3{
+    margin: 10px 0 0 0;
+}
+
+.message-box li{
+    margin: 5px 20px 5px 5px;
+}
+
 .contenedor{
     display: flex;
 }

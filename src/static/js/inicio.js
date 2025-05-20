@@ -6,6 +6,10 @@ function showSection(id, linkElement) {
   sections.forEach(section => section.classList.remove("active"));
   sections.forEach(section => section.classList.remove("iterativos"));
 
+  // ❌ Elimina los mensajes de todas las secciones
+  const allMessages = document.querySelectorAll(".messages");
+  allMessages.forEach(msg => msg.remove());
+
   // Muestra solo la sección correspondiente
   const selectedSection = document.getElementById(id);
   if (selectedSection) {
@@ -39,12 +43,6 @@ function initPage() {
     }
   }
 }
-/*
-function initPage() {
-  // Llama a showSection pasando el primer enlace como si se hubiera hecho click
-  const defaultLink = document.querySelector('nav a');
-  showSection('enl', defaultLink);
-}*/
 
 function actualizarFormularioENL() {
   const metodo = document.getElementById("metodo").value;
