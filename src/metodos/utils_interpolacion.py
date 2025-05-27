@@ -3,11 +3,11 @@ import numpy as np
 def imprimir_polinomio(a, n):
   polinomio = ""
   for i, coef in enumerate(a):
-    exp = n - 1 - i
-    coef = round(coef, 4)
+    exp = n - 1 - i # Exponente del término. Es en orden decreciente porque el vector a tiene los coeficientes en orden descendente (desde an-1 hasta a0)
+    coef = round(coef, 4) # Redondear a 4 cifras para que no imprima términos muy largos (se puede quitar para que imprima el polinomio exacto)
     if coef == 0:
-      continue
-    signo = " + " if coef > 0 and i > 0 else " "
+      continue # Se omiten términos nulos
+    signo = " + " if coef > 0 and i > 0 else " " # Determina el signo del coeficiente
     if exp == 0:
       polinomio += f"{signo}{coef}"
     elif exp == 1:
@@ -18,8 +18,8 @@ def imprimir_polinomio(a, n):
   return polinomio
 
 def calcular_error_interpolacion(a, x_real, y_real):
-  y_calculado = np.polyval(a, x_real)
-  error = abs(y_calculado - y_real)
+  y_calculado = np.polyval(a, x_real) # Evalúa el polinomio en x_real
+  error = abs(y_calculado - y_real) # Error convencional
   return error
 
 def imprimir_polinomios_spline(x, tabla, d):

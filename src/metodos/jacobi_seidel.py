@@ -10,10 +10,10 @@ import numpy as np
 from .condiciones import radio_espectral
 
 def MatJacobiSeid_DC(A, b, x0, DC, niter, metodo, request):
-  iteracion = 0
+  iteracion = 0 # Contador de iteraciones
   tol = float(f'0.5E-{DC}')
-  error = 1
-  n = len(A)
+  error = 1 # Error inicial
+  n = len(A) # Tamaño matriz A
   b = np.array(b).T
   x0 = np.array(x0).T
 
@@ -31,21 +31,22 @@ def MatJacobiSeid_DC(A, b, x0, DC, niter, metodo, request):
 
   df.loc[len(df)] = fila
 
+  # Descomposición de la matriz A en D, L y U
   D = np.diag(np.diagonal(A))
   L = -np.tril(A, -1)
   U = -np.triu(A, 1)
 
   while error > tol and iteracion < niter:
-    if metodo == 0:
-      T = np.linalg.inv(D) @ (L + U)
+    if metodo == 0: # Método de Jacobi
+      T = np.linalg.inv(D) @ (L + U) # Matriz de transición
       C = np.linalg.inv(D) @ b
-      x1 = T @ x0 + C
-    elif metodo == 1:
-      T = np.linalg.inv(D - L) @ U
+      x1 = T @ x0 + C # Se calcula la nueva x
+    elif metodo == 1: # Método de Gauss-Seidel
+      T = np.linalg.inv(D - L) @ U # Matriz de transición
       C = np.linalg.inv(D - L) @ b
-      x1 = T @ x0 + C
+      x1 = T @ x0 + C # Se calcula la nueva x
 
-    error = np.linalg.norm(x1 - x0, np.inf)
+    error = np.linalg.norm(x1 - x0, np.inf) # Error absoluto con norma infinita
     x0 = x1
     iteracion += 1
 
@@ -57,6 +58,7 @@ def MatJacobiSeid_DC(A, b, x0, DC, niter, metodo, request):
 
     df.loc[len(df)] = fila
 
+  # Verificación de convergencia
   if error < tol:
     solucion = x0
     if metodo == 0:
@@ -75,10 +77,10 @@ def MatJacobiSeid_DC(A, b, x0, DC, niter, metodo, request):
   return df, ro
 
 def MatJacobiSeid_CS1(A, b, x0, CS1, niter, metodo, request):
-  iteracion = 0
+  iteracion = 0 # Contador de iteraciones
   tol = float(f'5E-{CS1}')
-  error = 1
-  n = len(A)
+  error = 1 # Error inicial
+  n = len(A) # Tamaño matriz A
   b = np.array(b).T
   x0 = np.array(x0).T
 
@@ -96,21 +98,22 @@ def MatJacobiSeid_CS1(A, b, x0, CS1, niter, metodo, request):
 
   df.loc[len(df)] = fila
 
+  # Descomposición de la matriz A en D, L y U
   D = np.diag(np.diagonal(A))
   L = -np.tril(A, -1)
   U = -np.triu(A, 1)
 
   while error > tol and iteracion < niter:
-    if metodo == 0:
-      T = np.linalg.inv(D) @ (L + U)
+    if metodo == 0: # Método de Jacobi
+      T = np.linalg.inv(D) @ (L + U) # Matriz de transición
       C = np.linalg.inv(D) @ b
-      x1 = T @ x0 + C
-    elif metodo == 1:
-      T = np.linalg.inv(D - L) @ U
+      x1 = T @ x0 + C # Se calcula la nueva x
+    elif metodo == 1: # Método de Gauss-Seidel
+      T = np.linalg.inv(D - L) @ U # Matriz de transición
       C = np.linalg.inv(D - L) @ b
-      x1 = T @ x0 + C
+      x1 = T @ x0 + C # Se calcula la nueva x
 
-    error= np.linalg.norm((x1-x0)/x1, np.inf)
+    error= np.linalg.norm((x1-x0)/x1, np.inf) # Error relatico con división punto
     x0 = x1
     iteracion += 1
 
@@ -122,6 +125,7 @@ def MatJacobiSeid_CS1(A, b, x0, CS1, niter, metodo, request):
 
     df.loc[len(df)] = fila
 
+  # Verificación de convergencia
   if error < tol:
     solucion = x0
     if metodo == 0:
@@ -140,10 +144,10 @@ def MatJacobiSeid_CS1(A, b, x0, CS1, niter, metodo, request):
   return df, ro
 
 def MatJacobiSeid_CS2(A, b, x0, CS2, niter, metodo, request):
-  iteracion = 0
+  iteracion = 0 # Contador de iteraciones
   tol = float(f'5E-{CS2}')
-  error = 1
-  n = len(A)
+  error = 1 # Error inicial
+  n = len(A) # Tamaño matriz A
   b = np.array(b).T
   x0 = np.array(x0).T
 
@@ -161,21 +165,22 @@ def MatJacobiSeid_CS2(A, b, x0, CS2, niter, metodo, request):
 
   df.loc[len(df)] = fila
 
+  # Descomposición de la matriz A en D, L y U
   D = np.diag(np.diagonal(A))
   L = -np.tril(A, -1)
   U = -np.triu(A, 1)
 
   while error > tol and iteracion < niter:
-    if metodo == 0:
-      T = np.linalg.inv(D) @ (L + U)
+    if metodo == 0: # Método de Jacobi
+      T = np.linalg.inv(D) @ (L + U) # Matriz de transición
       C = np.linalg.inv(D) @ b
-      x1 = T @ x0 + C
-    elif metodo == 1:
-      T = np.linalg.inv(D - L) @ U
+      x1 = T @ x0 + C # Se calcula la nueva x
+    elif metodo == 1: # Método de Gauss-Seidel
+      T = np.linalg.inv(D - L) @ U # Matriz de transición
       C = np.linalg.inv(D - L) @ b
-      x1 = T @ x0 + C
+      x1 = T @ x0 + C # Se calcula la nueva x
 
-    error= np.linalg.norm(x1-x0, np.inf)/np.linalg.norm(x1, np.inf)
+    error= np.linalg.norm(x1-x0, np.inf)/np.linalg.norm(x1, np.inf) # Error relativo con división de normas infinitas
     x0 = x1
     iteracion += 1
 
@@ -187,6 +192,7 @@ def MatJacobiSeid_CS2(A, b, x0, CS2, niter, metodo, request):
 
     df.loc[len(df)] = fila
 
+  # Verificación de convergencia
   if error < tol:
     solucion = x0
     if metodo == 0:

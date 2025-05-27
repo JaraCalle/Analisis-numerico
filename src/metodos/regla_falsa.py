@@ -17,37 +17,39 @@ def regla_falsa_DC(a, b, dc, niter, fx, request):
     messages.error(request, "Regla falsa: No se encontraron raíces con el método seleccionado. Verifique con la gráfica.")
     return None, None
   
-  i = 1
+  i = 1 # Contador de iteraciones
   tol = "0.5E-"
   tol += dc
   tol = float(tol)
-  E = 1
-  xm_ant = a
+  E = 1 # Error inicial
+  xm_ant = a # Valor anterior de la aproximación de la raíz
 
   columnas = ["iter", "Xm", "f(Xm)", "E"]
   df = pd.DataFrame(columns=columnas)
 
   while E > tol and i <= niter:
+    # Evalúa f(a) y f(b)
     q0 = eval(fx, {'x': a, 'math': math})
     q1 = eval(fx, {'x': b,'math': math})
-    xm = b - ((q1 * (b - a)) / (q1 - q0))
-    E = abs(xm - xm_ant)
-    fe = eval(fx, {'x': xm, 'math': math})
+    xm = b - ((q1 * (b - a)) / (q1 - q0)) # Aplica la fórmula de la regla falsa para obtener el nuevo punto xm
+    E = abs(xm - xm_ant) # Error absoluto
+    fe = eval(fx, {'x': xm, 'math': math}) # Evalúa la función en el nuevo punto xm
     df.loc[len(df)] = [i, xm, fe, E]
-    xm_ant = xm
+    xm_ant = xm # Guarda xm como el valor anterior para la siguiente iteración
     i += 1
-    if fe * q1 < 0:
+    if fe * q1 < 0: # La raíz está entre xm y b -> se actualiza a
       a = xm
-    else:
+    else: # La raíz está entre a y xm -> se actualiza b
       b = xm
 
-  if fe==0:
+  # Condiciones de parada
+  if fe==0: # Se encontró una raíz exacta
     s=xm
     messages.success(request, f"Regla Falsa: {s} es raíz de f(x).")
-  elif E<tol:
+  elif E<tol: # Se alcanzó la tolerancia -> raíz aproximada
     s=xm
     messages.success(request, f"Regla Falsa: {s} es una aproximación de un raíz de f(x) con una tolerancia {tol}.")
-  else:
+  else: # No se encontró solución en el número máximo de iteraciones
     s=xm
     messages.error(request, f"Regla Falsa: Fracasó en {niter} iteraciones.")
 
@@ -67,30 +69,32 @@ def regla_falsa_CS(a, b, cs, niter, fx, request):
     messages.error(request, "Regla falsa: No se encontraron raíces con el método seleccionado. Verifique con la gráfica.")
     return None, None
 
-  i = 1
+  i = 1 # Contador de iteraciones
   tol = "5E-"
   tol += cs
   tol = float(tol)
-  E = 1
-  xm_ant = a
+  E = 1 # Error inicial
+  xm_ant = a # Valor anterior de la aproximación de la raíz
 
   columnas = ["iter", "Xm", "f(Xm)", "ℇ"]
   df = pd.DataFrame(columns=columnas)
 
   while E >= tol and i <= niter:
+    # Evalúa f(a) y f(b)
     q0 = eval(fx, {'x': a, 'math': math})
     q1 = eval(fx, {'x': b,'math': math})
-    xm = b - ((q1 * (b - a)) / (q1 - q0))
-    E = abs(xm - xm_ant)/abs(xm)
-    fe = eval(fx, {'x': xm, 'math': math})
+    xm = b - ((q1 * (b - a)) / (q1 - q0)) # Aplica la fórmula de la regla falsa para obtener el nuevo punto xm
+    E = abs(xm - xm_ant)/abs(xm) # Error relativo
+    fe = eval(fx, {'x': xm, 'math': math}) # Evalúa la función en el nuevo punto xm
     df.loc[len(df)] = [i, xm, fe, E]
-    xm_ant = xm
+    xm_ant = xm # Guarda xm como el valor anterior para la siguiente iteración
     i += 1
-    if fe * q1 < 0:
+    if fe * q1 < 0: # La raíz está entre xm y b -> actualiza a
       a = xm
-    else:
+    else: # La raíz está entre a y xm -> actualiza b
       b = xm
 
+  # Condiciones de parada
   if fe==0:
     s=xm
     messages.success(request, f"{s} es raíz de f(x).")
