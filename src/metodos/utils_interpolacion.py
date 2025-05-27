@@ -25,27 +25,27 @@ def calcular_error_interpolacion(a, x_real, y_real):
 def imprimir_polinomios_spline(x, tabla, d):
   polinomios = ""
   for i in range(len(x) - 1):
-    coef = tabla[i]
-    tramo = f"[{x[i]}, {x[i+1]}]"
+    coef = tabla[i] # Coeficientes del tramo i
+    tramo = f"[{x[i]}, {x[i+1]}]" # Intervalo del tramo
     polinomio = ""
 
     for j in range(d + 1):
-      c = coef[j]
-      exp = d - j
+      c = coef[j] # Coeficiente actual
+      exp = d - j # Exponente correspondiente (de mayor a menor)
 
       if abs(c) < 1e-12:
         continue  # omitir términos muy cercanos a 0
 
-      # Signo
+      # Determinar el signo
       if c > 0 and j != 0:
         polinomio += " + "
       elif c < 0:
         polinomio += " - " if j == 0 else " - "
 
-      # Coeficiente
+      # Manejo del coeficiente
       abs_c = abs(c)
       if not (abs_c == 1 and exp != 0):
-        polinomio += f"{abs_c:.4f}"
+        polinomio += f"{abs_c:.4f}"  # Mostrar coeficiente solo si no es 1 y si el exponente es diferente de 0 (redondeado a 4 cifras decimales)
 
       # Variable y exponente
       if exp > 0:
@@ -63,9 +63,9 @@ def calcular_error_spline(x, tabla, x_real, y_real):
   for i in range(len(x) - 1):
     if x[i] <= x_real <= x[i + 1]:
       # Evaluar el polinomio correspondiente en x_real
-      coef = tabla[i]  # de grado d: [a_d, ..., a1, a0]
-      y_estimada = np.polyval(coef, x_real)
-      error = abs(y_estimada - y_real)
+      coef = tabla[i]  # Obtener coeficientes del tramo correcto
+      y_estimada = np.polyval(coef, x_real) # Evaluar el polinomio en x_real
+      error = abs(y_estimada - y_real) # Error convencional
       return error
   
   print("El valor de x_real está fuera del dominio de los datos.")
